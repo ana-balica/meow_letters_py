@@ -61,9 +61,9 @@ class TestLetterBoard(unittest.TestCase):
 
         tests = [[], [letter_a], [letter_a, letter_a2], [letter_a, letter_b]]
         results = [set(), 
-                   set([letter_a]), 
-                   set([letter_a, letter_a2]), 
-                   set([letter_a, letter_b, letter_a2])]
+                   {letter_a},
+                   {letter_a, letter_a2},
+                   {letter_a, letter_b, letter_a2}]
         for i, test in enumerate(tests):
             self.board.add_letters(test)
             self.assertEqual(self.board.letters, results[i])
@@ -75,8 +75,8 @@ class TestLetterBoard(unittest.TestCase):
         self.board.add_letters([letter_a, letter_b, letter_a2])
 
         tests = [[], [letter_a], [letter_b, letter_a2]]
-        results = [set([letter_a, letter_b, letter_a2]),
-                   set([letter_b, letter_a2]),
+        results = [{letter_a, letter_b, letter_a2},
+                   {letter_b, letter_a2},
                    set()]
         for i, test in enumerate(tests):
             self.board.remove_letters(test)
