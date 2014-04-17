@@ -48,6 +48,22 @@ class TestLetterBoard(unittest.TestCase):
             self.board.add_letters(test)
             self.assertEqual(self.board.letters, results[i])
 
+    def test_remove_letters(self):
+        letter_a = Letter("A")
+        letter_b = Letter("B")
+        letter_a2 = Letter("A")
+        self.board.add_letters([letter_a, letter_b, letter_a2])
+
+        tests = [[], [letter_a], [letter_b, letter_a2]]
+        results = [set([letter_a, letter_b, letter_a2]),
+                   set([letter_b, letter_a2]),
+                   set()]
+        for i, test in enumerate(tests):
+            self.board.remove_letters(test)
+            self.assertEqual(self.board.letters, results[i])
+
+        self.assertRaises(KeyError, self.board.remove_letters, [1])
+
 
 if __name__ == '__main__':
     unittest.main()

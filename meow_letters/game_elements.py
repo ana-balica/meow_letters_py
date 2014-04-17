@@ -80,7 +80,10 @@ class LetterBoard(object):
         :param letters: iterable data structure (i.e. list, set) of Letter objects
         :return: the current instance
         """
-        pass
+        letters = set(letters)
+        for letter in letters:
+            self.letters.remove(letter)
+        return self
 
     def find_adjacent_letters(self, n, gap=0):
         """Find n number of adjacent letters with a possible gap between them. 
