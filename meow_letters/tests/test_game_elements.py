@@ -34,6 +34,14 @@ class TestLetter(unittest.TestCase):
         letter_a = Letter('A')
         self.assertIsNone(letter_a.previous)
 
+    def test_adjacent(self):
+        letter_a = Letter('A')
+        self.assertEqual(letter_a.adjacent, [None, Letter("B")])
+        letter_t = Letter("T")
+        self.assertEqual(letter_t.adjacent, [Letter("S"), Letter("U")])
+        letter_z = Letter("Z")
+        self.assertEqual(letter_z.adjacent, [Letter("Y"), None])
+
 
 
 class TestLetterBoard(unittest.TestCase):

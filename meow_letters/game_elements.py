@@ -69,6 +69,15 @@ class Letter(object):
         i = ALPHABET.index(self.letter)
         return Letter(ALPHABET[i-1])
 
+    @property
+    def adjacent(self):
+        """Get adjacent letters from the alphabet
+
+        :return: list containing 2 Letter objects - the previous and the next;
+                 if there is no next or previous, the value is set to None
+        """
+        return [self.previous, self.next]
+
 
 class LetterBoard(object):
     """Represents all available letters on the board
