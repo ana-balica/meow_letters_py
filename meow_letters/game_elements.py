@@ -18,7 +18,7 @@ class Letter(object):
         self.selected = False
 
     def __repr__(self):
-        return "Letter <{0}>".format(self.letter)
+        return "<Letter '{0}' at {1}>".format(self.letter, hex(id(self)))
 
     def select(self):
         """Mark a letter as being selected
