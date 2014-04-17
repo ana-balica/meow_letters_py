@@ -20,6 +20,14 @@ class Letter(object):
     def __repr__(self):
         return "<Letter '{0}' at {1}>".format(self.letter, hex(id(self)))
 
+    def __cmp__(self, other):
+        if self.letter < other.letter:
+            return -1
+        elif self.letter == other.letter:
+            return 0
+        else:
+            return 1
+
     def select(self):
         """Mark a letter as being selected
         """
