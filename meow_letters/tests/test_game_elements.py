@@ -34,6 +34,20 @@ class TestLetterBoard(unittest.TestCase):
         self.board.clear()
         self.assertEqual(len(self.board.letters), 0)
 
+    def test_add_letters(self):
+        letter_a = Letter("A")
+        letter_b = Letter("B")
+        letter_a2 = Letter("A")
+
+        tests = [[], [letter_a], [letter_a, letter_a2], [letter_a, letter_b]]
+        results = [set(), 
+                   set([letter_a]), 
+                   set([letter_a, letter_a2]), 
+                   set([letter_a, letter_b, letter_a2])]
+        for i, test in enumerate(tests):
+            self.board.add_letters(test)
+            self.assertEqual(self.board.letters, results[i])
+
 
 if __name__ == '__main__':
     unittest.main()

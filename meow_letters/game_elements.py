@@ -70,7 +70,9 @@ class LetterBoard(object):
         :param letters: iterable data structure (i.e. list, set) of Letter objects
         :return: the current instance
         """
-        pass
+        letters = set(letters)
+        self.letters.update(letters)
+        return self
 
     def remove_letters(self, letters):
         """Remove some letters from the board
