@@ -22,6 +22,18 @@ class TestLetter(unittest.TestCase):
         self.assertFalse(letter.selected)
         self.assertFalse(letter.is_selected())
 
+    def test_next(self):
+        letter_g = Letter('G')
+        self.assertEqual(letter_g.next, Letter("H"))
+        letter_z = Letter('Z')
+        self.assertIsNone(letter_z.next)
+
+    def test_previous(self):
+        letter_g = Letter('G')
+        self.assertEqual(letter_g.previous, Letter("F"))
+        letter_a = Letter('A')
+        self.assertIsNone(letter_a.previous)
+
 
 
 class TestLetterBoard(unittest.TestCase):

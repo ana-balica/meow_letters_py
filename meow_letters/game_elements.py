@@ -45,6 +45,30 @@ class Letter(object):
         """
         return self.selected
 
+    @property
+    def next(self):
+        """Get the next letter in the alphabet
+
+        :return: the next Letter object in the alphabet or None if it's the last
+                 letter
+        """
+        if self.letter == ALPHABET[-1]:
+            return None
+        i = ALPHABET.index(self.letter)
+        return Letter(ALPHABET[i+1])
+
+    @property
+    def previous(self):
+        """Get the previous letter in the alphabet
+
+        :return: the previous Letter object in the alphabet or None if it's the
+                 first letter
+        """
+        if self.letter == ALPHABET[0]:
+            return None
+        i = ALPHABET.index(self.letter)
+        return Letter(ALPHABET[i-1])
+
 
 class LetterBoard(object):
     """Represents all available letters on the board
