@@ -29,7 +29,7 @@ class TestLetterBoard(unittest.TestCase):
         self.board = LetterBoard()
 
     def test_clear(self):
-        self.board.letters = [Letter("A")]
+        self.board.letters.add(Letter("A"))
         self.assertEqual(len(self.board.letters), 1)
         self.board.clear()
         self.assertEqual(len(self.board.letters), 0)

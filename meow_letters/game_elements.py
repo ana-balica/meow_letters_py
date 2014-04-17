@@ -44,9 +44,9 @@ class LetterBoard(object):
     def __init__(self, letters=[]):
         """LetterBoard class initializer
 
-        :param letters: list of Letter objects
+        :param letters: iterable data structure (i.e. list, set) of Letter objects
         """
-        self.letters = letters
+        self.letters = set(letters)
 
     def setup(self):
         """Initializes the board with 5 random letters with a precomputed adjacent 
@@ -61,13 +61,13 @@ class LetterBoard(object):
 
         :return: the current instance
         """
-        self.letters = []
+        self.letters.clear()
         return self
 
     def add_letters(self, letters):
         """Add some letters to the board
 
-        :param letters: list of Letter objects
+        :param letters: iterable data structure (i.e. list, set) of Letter objects
         :return: the current instance
         """
         pass
@@ -75,7 +75,7 @@ class LetterBoard(object):
     def remove_letters(self, letters):
         """Remove some letters from the board
 
-        :param letters: list of Letter objects
+        :param letters: iterable data structure (i.e. list, set) of Letter objects
         :return: the current instance
         """
         pass
@@ -94,7 +94,7 @@ class LetterBoard(object):
     def get_adjacent_letters(self, letters, chain=2):
         """Return adjacent letters in respect to the available letters
 
-        :param letters: list of adjacent letter objects
+        :param letters: iterable data structure (i.e. list, set) of Letter objects
         :param chain: int length of the required final chain to form
         :return: list of adjacent letter objects
         """
