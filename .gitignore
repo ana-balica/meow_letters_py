@@ -55,3 +55,6 @@ docs/_build/
 # Virtualenv
 venv
 
+# IDE files
+.idea/
+
