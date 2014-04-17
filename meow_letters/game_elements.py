@@ -61,7 +61,8 @@ class LetterBoard(object):
 
         :return: the current instance
         """
-        pass
+        self.letters = []
+        return self
 
     def add_letters(self, letters):
         """Add some letters to the board

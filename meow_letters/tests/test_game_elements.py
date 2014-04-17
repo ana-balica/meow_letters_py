@@ -1,6 +1,6 @@
 import unittest
 
-from meow_letters.game_elements import Letter
+from meow_letters.game_elements import Letter, LetterBoard
 
 
 class TestLetter(unittest.TestCase):
@@ -21,6 +21,18 @@ class TestLetter(unittest.TestCase):
         letter.unselect()
         self.assertFalse(letter.selected)
         self.assertFalse(letter.is_selected())
+
+
+
+class TestLetterBoard(unittest.TestCase):
+    def setUp(self):
+        self.board = LetterBoard()
+
+    def test_clear(self):
+        self.board.letters = [Letter("A")]
+        self.assertEqual(len(self.board.letters), 1)
+        self.board.clear()
+        self.assertEqual(len(self.board.letters), 0)
 
 
 if __name__ == '__main__':
