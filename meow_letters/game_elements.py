@@ -14,7 +14,7 @@ class Letter(object):
         if not isinstance(letter, basestring):
             raise ValueError("Letter class should be initialized with a basestring, \
                 received type <{0}>".format(type(letter)))
-        self.letter = letter
+        self.letter = letter.upper()
         self.selected = False
 
     def __repr__(self):
