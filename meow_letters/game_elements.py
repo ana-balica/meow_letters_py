@@ -106,6 +106,22 @@ class LetterChain(object):
         """
         self.chain = list(chain)
 
+    def set_chain(self, chain):
+        """Set the chain attribute
+
+        :param chain: ordered iterable data structure (i.e. list) of Letter objects
+        :return: the current instance
+        """
+        self.chain = list(chain)
+        return self
+
+    def get_chain(self):
+        """Get the chain attribute
+
+        :return: list of Letter objects
+        """
+        return self.chain
+
     def add(self, letter):
         """Append to the end of the chain a letter
 
