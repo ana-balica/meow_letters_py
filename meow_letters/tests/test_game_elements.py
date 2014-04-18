@@ -1,6 +1,6 @@
 import unittest
 
-from meow_letters.game_elements import Letter, LetterChain, LetterBoard
+from meow_letters.game_elements import Letter, LetterChain, LetterBoard, is_valid_gap
 
 
 class TestLetter(unittest.TestCase):
@@ -128,6 +128,24 @@ class TestLetterBoard(unittest.TestCase):
         self.assertEqual(self.board.find_adjacent_letters(2), [["A", "B"], ["B", "C"]])
         self.assertEqual(self.board.find_adjacent_letters(3), [["A", "B", "C"]])
         self.assertEqual(self.board.find_adjacent_letters(4), [])
+
+
+class TestHelperFunctions(unittest.TestCase):
+    def test_is_valid_gap(self):
+        self.assertRaises(ValueError, is_valid_gap, [True], -1)
+        argss = [([True, True], 0), ([True, True], 1), ([False, True], 1),
+                 ([True, False], 1), ([True, True, False], 1),
+                 ([True, False, True], 1),
+                 ([True, False, True, False], 1),
+                 ([True, False, False, True], 2),
+                 ([True, False, True, False, True], 2),
+                 ([True, True, True], 1),
+                 ([True, True, True, False, True], 2),
+                 ([True, False, False, False, False, True], 2)]
+        expected_results = [True, False, False, False, False, True, False, True, True, True, True, False]
+        for i, args in enumerate(argss):
+            result = is_valid_gap(*args)
+            self.assertEqual(result, expected_results[i])
 
 
 if __name__ == '__main__':

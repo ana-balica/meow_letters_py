@@ -224,3 +224,23 @@ class LetterBoard(object):
         :return: list of adjacent letter objects
         """
         pass
+
+
+def is_valid_gap(mask, gap):
+    """Check if it's a valid mask considering the gap
+
+    :param gap: int total gap between letters
+    :return: True if valid, False otherwise
+    """
+    if gap < 0:
+        raise ValueError("The gap must a be positive int, received <{0}>".format(gap))
+    if not mask[0] or not mask[-1]:
+        return False
+    if gap > len(mask)-2:
+        return False
+
+    false_count = mask.count(False)
+    if false_count <= gap :
+        return True
+    else:
+        return False
