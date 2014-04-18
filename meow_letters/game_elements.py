@@ -1,4 +1,5 @@
 import random
+import itertools
 
 from meow_letters.data.alphabets import ENGLISH_ALPHABET as ALPHABET
 
@@ -146,10 +147,27 @@ class LetterBoard(object):
         with no gap between them are 'X', 'Y' and 'Z'.
 
         :param n: int number of adjacent letters to be found on the board
-        :param gap: int possible gap between 2 letters
-        :return: list of lists with consecutive ordered Letter objects
+        :param gap: int total gap between letters
+        :return: list of non-duplicate lists with consecutive ordered letter string
         """
-        pass
+        if n < 2:
+            raise ValueError("The minimum number of letters to build a chain is 2, \
+                             received <{0}>".format(n))
+        if gap < 0:
+            raise ValueError("The gap must a be positive int, received <{0}>".format(gap))
+
+        adjacent_combinations = []
+        text_letters = {l.letter for l in self.letters}
+        letters = list(self.letters)
+        letters.sort()
+        letters = [i for i, _ in itertools.groupby(letters)]
+        for letter in letters:
+            next_letters = letter.get_next_letters(n-1)
+            if all(l.letter in text_letters for l in next_letters):
+                combination = [letter.letter] + [i.letter for i in next_letters]
+                adjacent_combinations.extend([combination])
+
+        return adjacent_combinations
 
     def get_adjacent_letters(self, letters, chain=2):
         """Return adjacent letters in respect to the available letters
