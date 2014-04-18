@@ -1,5 +1,6 @@
 import random
 import itertools
+import collections
 
 from meow_letters.data.alphabets import ENGLISH_ALPHABET as ALPHABET
 
@@ -92,6 +93,52 @@ class Letter(object):
         if i+n >= len(ALPHABET):
             return None
         return [Letter(l) for l in ALPHABET[i+1:i+n+1]]
+
+
+class LetterChain(object):
+    """Represents a chain of letters where order matters
+
+    """
+    def __init__(self, chain=[]):
+        """LetterChain class initializer
+
+        :param chain: ordered iterable data structure (i.e. list) of Letter objects
+        """
+        self.chain = list(chain)
+
+    def add(self, letter):
+        """Append to the end of the chain a letter
+
+        :param letter: Letter object
+        :return: the current instance
+        """
+        if not isinstance(letter, Letter):
+            raise ValueError("Only letters can be added to a LetterChain, "
+                             "received {0}".format(letter))
+        self.chain.append(letter)
+        return self
+
+    # TODO: remove by distinguishing between different letter objects with same letter text
+    def remove(self, letter):
+        pass
+
+    def is_valid(self):
+        """Check if the chain is ordered alphabetically and has no gaps
+
+        :return: True if valid, False otherwise
+        """
+        if not self.chain or len(self.chain) == 1:
+            return True
+        chain = self.chain[:]
+        chain.sort()
+        if any(x for x, y in collections.Counter(chain).items() if y > 1):
+            return False
+        next_letters = chain[0].get_next_letters(len(chain)-1)
+        next_letters.insert(0, chain[0])
+        if chain == next_letters:
+            return True
+        else:
+            return False
 
 
 class LetterBoard(object):

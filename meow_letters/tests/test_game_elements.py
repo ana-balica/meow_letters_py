@@ -1,6 +1,6 @@
 import unittest
 
-from meow_letters.game_elements import Letter, LetterBoard
+from meow_letters.game_elements import Letter, LetterChain, LetterBoard
 
 
 class TestLetter(unittest.TestCase):
@@ -51,6 +51,31 @@ class TestLetter(unittest.TestCase):
         self.assertRaises(ValueError, letter_y.get_next_letters, 0)
 
 
+class TestLetterChain(unittest.TestCase):
+    def setUp(self):
+        self.chain = LetterChain()
+
+    def test_add(self):
+        letter_a = Letter("A")
+        letter_b = Letter("B")
+        self.chain.add(letter_a)
+        self.assertEqual(self.chain.chain, [letter_a])
+        self.chain.add(letter_b)
+        self.assertEqual(self.chain.chain, [letter_a, letter_b])
+
+    def test_is_valid(self):
+        letter_a = Letter("A")
+        letter_b = Letter("B")
+        letter_d = Letter("D")
+        self.assertTrue(self.chain.is_valid())
+        self.chain.add(letter_a)
+        self.assertTrue(self.chain.is_valid())
+        self.chain.add(letter_b)
+        self.assertTrue(self.chain.is_valid())
+        self.chain.add(letter_d)
+        self.assertFalse(self.chain.is_valid())
+        self.chain.chain = [letter_a, letter_a]
+        self.assertFalse(self.chain.is_valid())
 
 class TestLetterBoard(unittest.TestCase):
     def setUp(self):
