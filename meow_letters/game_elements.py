@@ -78,6 +78,20 @@ class Letter(object):
         """
         return [self.previous, self.next]
 
+    def get_next_letters(self, n):
+        """Get a list of n next letters
+
+        :param n: int number of next letter
+        :return: list of letters or None if the requested number of letters is too big
+        """
+        if n < 1:
+            raise ValueError("The requested number of next letters must be a "
+                             "positive integer, received <{0}>".format(n))
+        i = ALPHABET.index(self.letter)
+        if i+n >= len(ALPHABET):
+            return None
+        return [Letter(l) for l in ALPHABET[i+1:i+n+1]]
+
 
 class LetterBoard(object):
     """Represents all available letters on the board
