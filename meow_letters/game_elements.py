@@ -232,9 +232,10 @@ class LetterBoard(object):
         letters = [i for i, _ in itertools.groupby(letters)]
         for letter in letters:
             next_letters = letter.get_next_letters(n-1)
-            if all(l.letter in text_letters for l in next_letters):
-                combination = [letter.letter] + [i.letter for i in next_letters]
-                adjacent_combinations.extend([combination])
+            if next_letters:
+                if all(l.letter in text_letters for l in next_letters):
+                    combination = [letter.letter] + [i.letter for i in next_letters]
+                    adjacent_combinations.extend([combination])
 
         return adjacent_combinations
 
