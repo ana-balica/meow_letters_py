@@ -80,6 +80,16 @@ class Letter(object):
         """
         return [self.previous, self.next]
 
+    @property
+    def any_adjacent(self):
+        """Return one of the adjacent letters from the alphabet
+
+        :return: Letter object that si adjacent to the current instance
+        """
+        adjacent = [self.previous, self.next]
+        adjacent_filtered = [l for l in adjacent if l is not None]
+        return random.choice(adjacent_filtered)
+
     def get_next_letters(self, n):
         """Get a list of n next letters
 
