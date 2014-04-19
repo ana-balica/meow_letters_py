@@ -117,17 +117,17 @@ class TestLetterBoard(unittest.TestCase):
 
         self.assertRaises(KeyError, self.board.remove_letters, [1])
 
-    def test_find_adjacent_letters_without_gap(self):
+    def test_find_consecutive_combinations(self):
         letter_a = Letter("A")
         letter_a2 = Letter("A")
         letter_b = Letter("B")
         letter_c = Letter("C")
         self.board.add_letters([letter_a, letter_a2, letter_b, letter_c])
 
-        self.assertRaises(ValueError, self.board.find_adjacent_letters, 1)
-        self.assertEqual(self.board.find_adjacent_letters(2), [["A", "B"], ["B", "C"]])
-        self.assertEqual(self.board.find_adjacent_letters(3), [["A", "B", "C"]])
-        self.assertEqual(self.board.find_adjacent_letters(4), [])
+        self.assertRaises(ValueError, self.board.find_consecutive_combinations, 1)
+        self.assertEqual(self.board.find_consecutive_combinations(2), [["A", "B"], ["B", "C"]])
+        self.assertEqual(self.board.find_consecutive_combinations(3), [["A", "B", "C"]])
+        self.assertEqual(self.board.find_consecutive_combinations(4), [])
 
 
 class TestHelperFunctions(unittest.TestCase):

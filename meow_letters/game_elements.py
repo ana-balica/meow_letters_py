@@ -204,20 +204,16 @@ class LetterBoard(object):
             self.letters.remove(letter)
         return self
 
-    def find_adjacent_letters(self, n, gap=0):
-        """Find n number of adjacent letters with a possible gap between them. 
-        For instance, 2 letters with a gap of value 1 are 'A' and 'C'; or 3 letters
-        with no gap between them are 'X', 'Y' and 'Z'.
+    def find_consecutive_combinations(self, n):
+        """Find n number of consecutive letters on the board
+        For instance, 3 consecutive letters are 'X', 'Y' and 'Z'.
 
-        :param n: int number of adjacent letters to be found on the board
-        :param gap: int total gap between letters
-        :return: list of non-duplicate lists with consecutive ordered letter string
+        :param n: int number of consecutive letters to be found on the board
+        :return: list of non-duplicate lists with consecutive ordered letter strings
         """
         if n < 2:
             raise ValueError("The minimum number of letters to build a chain is 2, \
                              received <{0}>".format(n))
-        if gap < 0:
-            raise ValueError("The gap must a be positive int, received <{0}>".format(gap))
 
         adjacent_combinations = []
         text_letters = {l.letter for l in self.letters}
