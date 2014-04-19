@@ -89,6 +89,20 @@ class TestLetterBoard(unittest.TestCase):
     def setUp(self):
         self.board = LetterBoard()
 
+    def test_setup(self):
+        self.assertRaises(ValueError, self.board.setup, 0)
+        self.assertRaises(ValueError, self.board.setup, 2)
+        for i in xrange(3, 6):
+            self.board.setup(i)
+            self.assertEqual(len(self.board.letters), i)
+            combinations = self.board.find_consecutive_combinations(2)
+            self.assertIsNotNone(combinations)
+            comb_lens = []
+            for comb in combinations:
+                comb_lens.append(len(comb))
+            self.assertIn(2, comb_lens)
+            self.board.clear()
+
     def test_clear(self):
         self.board.letters.add(Letter("A"))
         self.assertEqual(len(self.board.letters), 1)

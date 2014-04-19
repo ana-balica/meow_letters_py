@@ -177,13 +177,24 @@ class LetterBoard(object):
         """
         self.letters = set(letters)
 
-    def setup(self):
-        """Initializes the board with 5 random letters with a precomputed adjacent 
+    def setup(self, n):
+        """Initializes the board with n random letters with a precomputed consecutive
         pair of letters
 
+        :param n: int number of letters to initilialize the board with
         :return: the current instance
         """
-        pass
+        if n < 3:
+            raise ValueError("The number of letters to initialize the board with "
+                             "must be a positive number bigger or equal to 3, "
+                             "got <{0}>".format(n))
+        self.letters.clear()
+        for i in xrange(n-1):
+            letter = Letter(random.choice(ALPHABET))
+            self.letters.add(letter)
+        chosen_letter = random.choice(list(self.letters))
+        self.letters.add(chosen_letter.any_adjacent)
+        return self
 
     def clear(self):
         """Clear the board of letters
