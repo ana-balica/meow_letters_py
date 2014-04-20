@@ -90,6 +90,20 @@ class Letter(object):
         adjacent_filtered = [l for l in adjacent if l is not None]
         return random.choice(adjacent_filtered)
 
+    def is_first(self):
+        """Check if the letter is the first in the alphabet
+
+        :return: True if it's first, False otherwise
+        """
+        return self.letter == ALPHABET[0]
+
+    def is_last(self):
+        """Check if the letter is the last in the alphabet
+
+        :return: True if it's last, False otherwise
+        """
+        return self.letter == ALPHABET[-1]
+
     def get_next_letters(self, n):
         """Get a list of n next letters
 

@@ -50,6 +50,18 @@ class TestLetter(unittest.TestCase):
         letter_z = Letter("Z")
         self.assertEqual(letter_z.any_adjacent, Letter("Y"))
 
+    def test_is_first(self):
+        letter_a = Letter("A")
+        self.assertTrue(letter_a.is_first())
+        letter_p = Letter("P")
+        self.assertFalse(letter_p.is_first())
+
+    def test_is_last(self):
+        letter_p = Letter("P")
+        self.assertFalse(letter_p.is_last())
+        letter_z = Letter("Z")
+        self.assertTrue(letter_z.is_last())
+
     def test_get_next_letters(self):
         letter_a = Letter("A")
         self.assertEqual(letter_a.get_next_letters(2), [Letter("B"), Letter("C")])
