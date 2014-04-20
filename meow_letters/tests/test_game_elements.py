@@ -71,6 +71,18 @@ class TestLetter(unittest.TestCase):
         self.assertIsNone(letter_y.get_next_letters(2))
         self.assertRaises(ValueError, letter_y.get_next_letters, 0)
 
+    def test_get_adjacent_letters(self):
+        letter_a = Letter("A")
+        self.assertRaises(ValueError, letter_a.get_adjacent_letters, 0)
+        self.assertRaises(ValueError, letter_a.get_adjacent_letters, 27)
+        self.assertEqual(letter_a.get_adjacent_letters(3), [letter_a, Letter("B"), Letter("C")])
+
+        letter_h = Letter("H")
+        adjacents = letter_h.get_adjacent_letters(3)
+        self.assertEqual(len(adjacents), 3)
+        for a in adjacents:
+            self.assertIn(a, [Letter("F"), Letter("G"), letter_h, Letter("I"), Letter("J")])
+
 
 class TestLetterChain(unittest.TestCase):
     def setUp(self):

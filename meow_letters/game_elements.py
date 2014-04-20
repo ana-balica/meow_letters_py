@@ -118,6 +118,34 @@ class Letter(object):
             return None
         return [Letter(l) for l in ALPHABET[i+1:i+n+1]]
 
+    def get_adjacent_letters(self, n=1):
+        """Return adjacent letters in respect to the available letters
+
+        :param n: int length of the required final chain to form
+        :return: list of adjacent letter objects ordered consecutively
+        """
+        if n < 1:
+            raise ValueError("Minimum number of chaining is 1, received <{0}>".format(n))
+        if n > len(ALPHABET):
+            raise  ValueError("Maximum number of chaining it the length of "
+                              "alphabet - {0} letters, got <{1}>".format(len(ALPHABET), n))
+        if n == 1:
+            return [self]
+        letters = [self]
+        for i in xrange(n-1):
+            if self.is_first():
+                chosen_letter = letters[-1]
+            elif self.is_last():
+                chosen_letter = letters[0]
+            else:
+                chosen_letter = random.choice([letters[0], letters[-1]])
+            adjacent = chosen_letter.any_adjacent
+            if adjacent < chosen_letter:
+                letters.insert(0, adjacent)
+            else:
+                letters.append(adjacent)
+        return letters
+
 
 class LetterChain(object):
     """Represents a chain of letters where order matters
