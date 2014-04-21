@@ -1,6 +1,6 @@
 import unittest
 
-from meow_letters.game_elements import Letter, LetterChain, LetterBoard
+from meow_letters.letters import Letter, LetterChain, LetterBoard
 
 
 class TestLetter(unittest.TestCase):
