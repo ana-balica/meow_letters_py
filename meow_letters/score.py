@@ -6,10 +6,11 @@ class Score(object):
         """Add points to the score
 
         :param points: int number of points to add
-        :return: the current instance
+        :return: int number of total points
         """
         if int(points) < 0:
             raise ValueError("The number of point must a positive integer, "
                              "got <{0}>".format(points))
         self.points += int(points)
-        return self
+        return self.points
+

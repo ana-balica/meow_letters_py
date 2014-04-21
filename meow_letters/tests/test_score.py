@@ -8,12 +8,9 @@ class TestScore(unittest.TestCase):
 
     def test_add(self):
         self.assertRaises(ValueError, self.score.add, -1)
-        self.score.add(15)
-        self.assertEqual(self.score.points, 15)
-        self.score.add(0)
-        self.assertEqual(self.score.points, 15)
-        self.score.add(30)
-        self.assertEqual(self.score.points, 45)
+        self.assertEqual(self.score.add(15), 15)
+        self.assertEqual(self.score.add(0), 15)
+        self.assertEqual(self.score.add(30), 45)
 
 if __name__ == '__main__':
     unittest.main()
