@@ -154,7 +154,6 @@ class Letter(object):
 
 class LetterChain(object):
     """Represents a chain of letters where order matters
-
     """
     def __init__(self, chain=[]):
         """LetterChain class initializer

@@ -1,4 +1,6 @@
 class Score(object):
+    """Represents total user score
+    """
     def __init__(self, points=0):
         self.points = points
 
