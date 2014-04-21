@@ -4,6 +4,9 @@ class Score(object):
     def __init__(self, points=0):
         self.points = points
 
+    def __repr__(self):
+        return "<Score '{0}' points at {1}>".format(self.points, hex(id(self)))
+
     def add(self, points):
         """Add points to the score
 
