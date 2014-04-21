@@ -317,14 +317,3 @@ class LetterBoard(object):
                     adjacent_combinations.extend([combination])
 
         return adjacent_combinations
-
-    def get_adjacent_letters(self, letters, chain=2):
-        """Return adjacent letters in respect to the available letters
-
-        :param letters: iterable data structure (i.e. list, set) of Letter objects
-        :param chain: int length of the required final chain to form
-        :return: list of adjacent letter objects
-        """
-        pass
-
-
