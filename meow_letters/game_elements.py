@@ -133,13 +133,18 @@ class Letter(object):
             return [self]
         letters = [self]
         for i in xrange(n-1):
-            if self.is_first():
+            if letters[0].is_first():
                 chosen_letter = letters[-1]
-            elif self.is_last():
+                adjacent = chosen_letter.next
+            elif letters[-1].is_last():
                 chosen_letter = letters[0]
+                adjacent = chosen_letter.previous
             else:
                 chosen_letter = random.choice([letters[0], letters[-1]])
-            adjacent = chosen_letter.any_adjacent
+                if chosen_letter == letters[0]:
+                    adjacent = chosen_letter.previous
+                else:
+                    adjacent = chosen_letter.next
             if adjacent < chosen_letter:
                 letters.insert(0, adjacent)
             else:

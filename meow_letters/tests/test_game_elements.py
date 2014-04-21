@@ -73,15 +73,25 @@ class TestLetter(unittest.TestCase):
 
     def test_get_adjacent_letters(self):
         letter_a = Letter("A")
+        letter_z = Letter("Z")
         self.assertRaises(ValueError, letter_a.get_adjacent_letters, 0)
         self.assertRaises(ValueError, letter_a.get_adjacent_letters, 27)
         self.assertEqual(letter_a.get_adjacent_letters(3), [letter_a, Letter("B"), Letter("C")])
+        self.assertEqual(letter_z.get_adjacent_letters(3), [Letter("X"), Letter("Y"), letter_z])
+
+        letter_b = Letter("B")
+        adjacents = letter_b.get_adjacent_letters(6)
+        self.assertEqual(len(adjacents), 6)
+        for a in adjacents:
+            self.assertIn(a, [letter_a, letter_b, Letter("C"), Letter("D"),
+                              Letter("E"), Letter("F"), Letter("G")])
 
         letter_h = Letter("H")
         adjacents = letter_h.get_adjacent_letters(3)
         self.assertEqual(len(adjacents), 3)
         for a in adjacents:
             self.assertIn(a, [Letter("F"), Letter("G"), letter_h, Letter("I"), Letter("J")])
+
 
 
 class TestLetterChain(unittest.TestCase):
