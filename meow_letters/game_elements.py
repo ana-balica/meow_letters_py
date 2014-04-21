@@ -272,6 +272,27 @@ class LetterBoard(object):
             self.letters.remove(letter)
         return self
 
+    def add_random_letters(self, level):
+        """Add some "random" letters according to the level
+
+        :param level: int user game level
+        :return: the current instance
+        """
+        if level < 0:
+            raise ValueError("The user level must be at least 1, received <{0}>".format(level))
+
+        if self.find_consecutive_combinations(level+1):
+            for _ in xrange(level+1):
+                letter = Letter(random.choice(ALPHABET))
+                self.letters.add(letter)
+        else:
+            chosen_letter = random.choice(list(self.letters))
+            letters = chosen_letter.get_adjacent_letters(level+1)
+            self.letters.update(set(letters))
+            letter = Letter(random.choice(ALPHABET))
+            self.letters.add(letter)
+        return self
+
     def find_consecutive_combinations(self, n):
         """Find n number of consecutive letters on the board
         For instance, 3 consecutive letters are 'X', 'Y' and 'Z'.
