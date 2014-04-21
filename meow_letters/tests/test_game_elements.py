@@ -178,7 +178,8 @@ class TestLetterBoard(unittest.TestCase):
         self.assertRaises(ValueError, self.board.add_random_letters, 0)
         for level in xrange(1, 5):
             self.board.letters = {Letter("C"), Letter("V"), Letter("F")}
-            self.board.add_random_letters(level)
+            random_letters = self.board.add_random_letters(level)
+            self.assertEqual(len(random_letters), level+1)
             self.assertEqual(len(self.board.letters), level+4)
             combinations = self.board.find_consecutive_combinations(level+1)
             self.assertIsNotNone(combinations)

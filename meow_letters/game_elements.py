@@ -276,22 +276,25 @@ class LetterBoard(object):
         """Add some "random" letters according to the level
 
         :param level: int user game level
-        :return: the current instance
+        :return: set of new random letters added to the board
         """
         if level < 0:
             raise ValueError("The user level must be at least 1, received <{0}>".format(level))
 
+        random_letters = set()
         if self.find_consecutive_combinations(level+1):
             for _ in xrange(level+1):
                 letter = Letter(random.choice(ALPHABET))
-                self.letters.add(letter)
+                random_letters.add(letter)
         else:
             chosen_letter = random.choice(list(self.letters))
             letters = chosen_letter.get_adjacent_letters(level+1)
-            self.letters.update(set(letters))
+            letters.remove(chosen_letter)
+            random_letters.update(set(letters))
             letter = Letter(random.choice(ALPHABET))
-            self.letters.add(letter)
-        return self
+            random_letters.add(letter)
+        self.add_letters(random_letters)
+        return random_letters
 
     def find_consecutive_combinations(self, n):
         """Find n number of consecutive letters on the board
