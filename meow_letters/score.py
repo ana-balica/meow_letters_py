@@ -14,3 +14,13 @@ class Score(object):
         self.points += int(points)
         return self.points
 
+    def update(self, n):
+        """Update the score according to the length of the chain
+
+        :param n: int chain length
+        :return: total number of points
+        """
+        if n < 2:
+            raise ValueError("Minimum chain number must be 2, got <{0}>".format(n))
+        self.points += (n-1)*5
+        return self.points
