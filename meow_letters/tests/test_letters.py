@@ -105,6 +105,22 @@ class TestLetterChain(unittest.TestCase):
         self.chain.add(letter_b)
         self.assertEqual(self.chain.chain, [letter_a, letter_b])
 
+    def test_remove(self):
+        letter_a = Letter("A")
+        letter_b = Letter("B")
+        letter_c = Letter("C")
+        self.assertRaises(ValueError, self.chain.remove, letter_a)
+        self.chain.set_chain([letter_a, letter_b, letter_c])
+        self.assertRaises(ValueError, self.chain.remove, Letter("Z"))
+        self.chain.remove(letter_c)
+        self.assertEqual(self.chain.get_chain(), [letter_a, letter_b])
+        self.chain.add(letter_c)
+        self.chain.remove(letter_b)
+        self.assertEqual(self.chain.get_chain(), [letter_a])
+        self.chain.set_chain([letter_a, letter_b, letter_c])
+        self.chain.remove(letter_a)
+        self.assertEqual(self.chain.get_chain(), [])
+
     def test_is_valid(self):
         letter_a = Letter("A")
         letter_b = Letter("B")

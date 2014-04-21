@@ -191,9 +191,24 @@ class LetterChain(object):
         self.chain.append(letter)
         return self
 
-    # TODO: remove by distinguishing between different letter objects with same letter text
     def remove(self, letter):
-        pass
+        """Remove letter from the chain. All consecutive following letter will be
+        removed from the chain too.
+
+        :param letter: Letter object
+        :return: the current instance
+        """
+        if len(self.chain) == 0:
+            raise ValueError("Can't remove from empty chain")
+        if letter not in self.chain:
+            raise ValueError("Error: {0} is not in the chain".format(letter))
+        if letter == self.chain[0]:
+            self.chain = []
+        else:
+            letter_index = ALPHABET.index(letter.letter)
+            for i in reversed(xrange(letter_index, len(self.chain))):
+                self.chain.remove(self.chain[i])
+        return self
 
     def is_valid(self):
         """Check if the chain is ordered alphabetically and has no gaps
