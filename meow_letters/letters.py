@@ -243,7 +243,7 @@ class LetterBoard(object):
         """Initializes the board with n random letters with a precomputed consecutive
         pair of letters
 
-        :param n: int number of letters to initilialize the board with
+        :param n: int number of letters to initialize the board with
         :return: the current instance
         """
         if n < 3:
