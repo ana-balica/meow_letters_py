@@ -179,6 +179,14 @@ class LetterChain(object):
         """
         return self.chain
 
+    @property
+    def length(self):
+        """Return the length of the chain
+
+        :return: int length of the chain
+        """
+        return len(self.chain)
+
     def add(self, letter):
         """Append to the end of the chain a letter
 

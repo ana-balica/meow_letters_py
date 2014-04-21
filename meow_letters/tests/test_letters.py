@@ -121,6 +121,13 @@ class TestLetterChain(unittest.TestCase):
         self.chain.remove(letter_a)
         self.assertEqual(self.chain.get_chain(), [])
 
+    def test_length(self):
+        self.assertEqual(self.chain.length, 0)
+        self.chain.add(Letter("A"))
+        self.assertEqual(self.chain.length, 1)
+        self.chain.add(Letter("B"))
+        self.assertEqual(self.chain.length, 2)
+
     def test_is_valid(self):
         letter_a = Letter("A")
         letter_b = Letter("B")
