@@ -1,7 +1,32 @@
 #:kivy 1.8.0
 
-<MeowLettersGame>:
-    GridLayout:
-        cols: 5
-        rows: 5
-        padding: [5, 5, 5, 5]
+<MenuScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "Meow Letters"
+        Button:
+            text: 'New game'
+            on_press: root.manager.current = 'game'
+        Button:
+            text: 'Highscores'
+            on_press: root.manager.current = 'highscores'
+        Button:
+            text: "Settings"
+            on_press: root.manager.current = 'settings'
+
+<GameScreen>:
+    Label:
+        text: "This is going to be the game screen"
+
+<GameOverScreen>:
+    Label:
+        text: "This is going to be the game over screen"
+
+<HighscoresScreen>:
+    Label:
+        text: "This is going to be the highscores screen"
+
+<SettingsScreen>:
+    Label:
+        text: "This is going to be the settings screen"
