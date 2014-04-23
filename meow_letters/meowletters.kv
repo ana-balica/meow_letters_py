@@ -28,5 +28,19 @@
         text: "This is going to be the highscores screen"
 
 <SettingsScreen>:
-    Label:
-        text: "This is going to be the settings screen"
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                text: 'Username'
+            TextInput:
+                text: ''
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1.0, 0.1
+            Button:
+                text: 'Cancel'
+                on_press: root.manager.current = 'menu'
+            Button:
+                text: 'OK'
