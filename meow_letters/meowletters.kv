@@ -1,4 +1,5 @@
 #:kivy 1.8.0
+#:set letter_size 70
 
 <MenuScreen>:
     BoxLayout:
@@ -16,8 +17,126 @@
             on_press: root.manager.current = 'settings'
 
 <GameScreen>:
-    Label:
-        text: "This is going to be the game screen"
+    canvas.before:
+        Color:
+            rgba: 0.95, 0.95, 0.95, 1
+        Rectangle:
+            # self here refers to the widget i.e BoxLayout
+            pos: self.pos
+            size: self.size
+    GridLayout:
+        #minimum_size: [120, 120]
+        #spacing: [10, 10]
+        #center_x: self.width / 2
+        #center_y: self.height / 2
+        cols: 5
+        rows: 5
+
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1            
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+        Label:
+            font_size: letter_size
+            color: 0, 0, 0, 1
+            text: "A"
+
 
 <GameOverScreen>:
     Label:
