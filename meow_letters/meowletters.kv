@@ -16,128 +16,6 @@
             text: "Settings"
             on_press: root.manager.current = 'settings'
 
-<GameScreen>:
-    canvas.before:
-        Color:
-            rgba: 0.95, 0.95, 0.95, 1
-        Rectangle:
-            # self here refers to the widget i.e BoxLayout
-            pos: self.pos
-            size: self.size
-    GridLayout:
-        #minimum_size: [120, 120]
-        #spacing: [10, 10]
-        #center_x: self.width / 2
-        #center_y: self.height / 2
-        cols: 5
-        rows: 5
-
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1            
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-        Label:
-            font_size: letter_size
-            color: 0, 0, 0, 1
-            text: "A"
-
-
 <GameOverScreen>:
     Label:
         text: "This is going to be the game over screen"
@@ -163,3 +41,138 @@
                 on_press: root.manager.current = 'menu'
             Button:
                 text: 'OK'
+
+<Letter>:
+	canvas.before:
+		PushMatrix
+		Translate:
+			xy: self.center_x, self.center_y
+		Scale:
+			xyz: root.scale, root.scale, 0
+		Translate:
+			xy: -self.center_x, -self.center_y
+	canvas.after:
+		PopMatrix
+
+	canvas:
+		Color:
+			rgb: 0xE7 / 255., 0xC7 / 255., 0x83 / 255.
+		BorderImage:
+			pos: self.pos
+			size: self.size
+			source: 'data/img/mask.png'
+
+	Label:
+	    color: 0xB8 / 255., 0x91 / 255., 0x3D / 255., 1
+		text: root.letter
+		font_size: min(self.height, self.width) / 2.5
+		bold: True
+		size: root.size
+		center: root.center
+
+<BoxButton@ButtonBehavior+BoxLayout>:
+	source: ''
+	orientation: 'vertical'
+	padding: '8dp'
+	canvas.before:
+		Color:
+			rgb: 0xbb / 255., 0xad / 255., 0xa0 / 255.
+		BorderImage:
+			pos: self.pos
+			size: self.size
+			source: 'data/img/mask.png'
+
+	Image:
+		source: root.source
+
+<TextButton@Button>:
+	color: 1, 1, 1, 1
+	background_color: 0x28 / 255., 0x5D / 255., 0x74 / 255., 1.
+	background_normal: 'data/img/mask.png'
+	background_down: 'data/img/mask.png'
+	size_hint_y: None
+	height: '48dp'
+	font_size: '20dp'
+	bold: True
+
+<GameScreen>:
+    BoxLayout:
+        padding: '10dp'
+        spacing: '10dp'
+        orientation: 'vertical' if self.height > self.width else 'horizontal'
+        canvas:
+            Color:
+                rgb: 0xe0 / 255., 0xe0 / 255., 0xe0 / 255.
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        BoxLayout:
+            orientation: 'vertical' if root.height > root.width else 'horizontal'
+            size_hint_y: .25 if root.height > root.width else 1
+
+            BoxLayout:
+                spacing: '30dp'
+                padding: '15dp'
+                orientation: 'vertical'
+
+                Label:
+                    text: 'Meow Letters'
+                    font_size: min(root.height, root.width) / 10.
+                    color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
+                    bold: True
+                Label:
+                    text: 'Level ' + str(game.level)
+                    color: 0x28 / 255., 0x5D / 255., 0x74 / 255., 1.
+                    font_size: root.height / 14
+                    bold: True
+                    halign: 'left'
+                Label:
+                    text: 'Score ' + str(game.score)
+                    color: 0x28 / 255., 0x5D / 255., 0x74 / 255., 1.
+                    font_size: root.height / 18
+                    bold: True
+
+        AnchorLayout:
+            id: anchor
+
+            Game:
+                id: game
+                size_hint: None, None
+                size: [min(anchor.width, anchor.height)] * 2
+                on_size: self.reposition()
+                on_pos: self.reposition()
+
+
+<Game>:
+	AnchorLayout:
+		id: end
+		pos: root.pos
+		size: root.size
+		opacity: 0
+
+		canvas:
+			Color:
+				rgba: 0xfa / 255., 0xf8 / 255., 0xef / 255., self.opacity - 0.2
+			BorderImage:
+				pos: self.pos
+				size: self.size
+				source: 'data/img/mask.png'
+
+		BoxLayout:
+			orientation: 'vertical'
+			padding: '10dp'
+			spacing: '20dp'
+
+			Label:
+				id: end_label
+				font_size: min(self.height, self.width) / 3.
+				color: 0x28 / 255., 0x5D / 255., 0x74 / 255., 1.
+				bold: True
+				text: 'Game\nover!'
+				halign: 'center'
+
+			TextButton:
+				text: 'Restart'
+				on_press: root.restart() if end.opacity == 1. else None
+				font_size: '20dp'
