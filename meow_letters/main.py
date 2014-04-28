@@ -1,4 +1,5 @@
 from kivy.app import App
+from kivy.config import Config
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 
 
@@ -30,4 +31,6 @@ class MeowLettersApp(App):
 
 
 if __name__ == '__main__':
+    Config.set('graphics', 'width', '320')
+    Config.set('graphics', 'height', '480')
     MeowLettersApp().run()
