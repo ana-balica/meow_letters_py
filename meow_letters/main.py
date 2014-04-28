@@ -96,13 +96,17 @@ class Game(Widget):
 
         :param coordinates a tuple with (x, y) pixel coordinates.
         """
-        if coordinates[0] > 0 and coordinates[1] > 0:
-            unit = self.tile_size + self.tile_padding
-            x = int((coordinates[0] - self.tile_padding) / unit)
-            y = int((coordinates[1] - self.tile_padding) / unit)
-            return (x, y)
-        return (None, None)
+        grid_length = (self.tile_size + self.tile_padding) * GRID_SIZE + self.tile_padding
+        if coordinates[0] < 0 \
+                or coordinates[1] < 0 \
+                or coordinates[0] > grid_length \
+                or coordinates[1] > grid_length:
+            return (None, None)
 
+        unit = self.tile_size + self.tile_padding
+        x = int((coordinates[0] - self.tile_padding) / unit)
+        y = int((coordinates[1] - self.tile_padding) / unit)
+        return (x, y)
 
     def spawn_rand_letter(self, *args):
         """Spawns a random letter on the board.
