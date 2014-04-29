@@ -131,7 +131,7 @@ class Game(Widget):
         self.grid[x][y] = letter
         self.add_widget(letter)
 
-    def on_touch_up(self, touch):
+    def on_touch_down(self, touch):
         """Catches the touch event on the grid.
         """
         relative_coordinates = self.to_widget(touch.pos[0], touch.pos[1], True)
