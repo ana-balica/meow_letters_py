@@ -1,3 +1,6 @@
+from random import choice
+from string import letters
+
 from kivy.animation import Animation
 from kivy.app import App
 from kivy.config import Config
@@ -6,8 +9,9 @@ from kivy.graphics import Color, BorderImage
 from kivy.properties import StringProperty, NumericProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.uix.widget import Widget
-from random import choice
-from string import letters
+
+from meow_letters.constants.colors import *
+
 
 GRID_SIZE = 5
 
@@ -35,9 +39,9 @@ class Game(Widget):
         """
         self.canvas.before.clear()
         with self.canvas.before:
-            Color(0x41 / 255., 0x76 / 255., 0x8D / 255.)
+            Color(*BLUE)
             BorderImage(pos=self.pos, size=self.size, source='data/img/mask.png')
-            Color(0x63 / 255., 0x94 / 255., 0xA9 / 255.)
+            Color(*LIGHTER_BLUE)
             for ix, iy in self.iterate_pos():
                 BorderImage(pos=self.index_to_pos(ix, iy), size=(self.tile_size, self.tile_size),
                 source='data/img/mask.png')
