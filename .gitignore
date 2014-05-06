@@ -58,3 +58,5 @@ venv
 # IDE files
 .idea/
 
+# Buildozer
+.buildozer
