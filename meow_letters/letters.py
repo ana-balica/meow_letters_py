@@ -2,7 +2,7 @@ import random
 import itertools
 import collections
 
-from meow_letters.data.alphabets import ENGLISH_ALPHABET as ALPHABET
+from meow_letters.constants.alphabets import ENGLISH_ALPHABET as ALPHABET
 
 
 class Letter(object):
