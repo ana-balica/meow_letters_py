@@ -8,18 +8,34 @@
 #:set light_blue (0xe0 / 255., 0xe0 / 255., 0xe0 / 255.)
 #:set dark_blue (0x28 / 255., 0x5D / 255., 0x74 / 255., 1.)
 
+
+<MenuButton@Button>:
+	background_color: dark_blue
+	font_size: '20dp'
+	bold: True
+
 <MenuScreen>:
     BoxLayout:
         orientation: "vertical"
+        padding: '30dp', '10dp', '30dp', '40dp'
+        canvas:
+            Color:
+                rgb: light_blue
+            Rectangle:
+                pos: self.pos
+                size: self.size
         Label:
             text: "Meow Letters"
-        Button:
+            font_size: min(root.height, root.width) / 10.
+            color: dark_grey
+            bold: True
+        MenuButton:
             text: 'New game'
             on_press: root.manager.current = 'game'
-        Button:
+        MenuButton:
             text: 'Highscores'
             on_press: root.manager.current = 'highscores'
-        Button:
+        MenuButton:
             text: "Settings"
             on_press: root.manager.current = 'settings'
 
