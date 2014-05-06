@@ -1,5 +1,12 @@
 #:kivy 1.8.0
-#:set letter_size 70
+#:set white (1, 1, 1, 1)
+#:set light_brown (0xE7 / 255., 0xC7 / 255., 0x83 / 255.)
+#:set brown (0xB8 / 255., 0x91 / 255., 0x3D / 255., 1)
+#:set light_grey (0xFA / 255., 0xF8 / 255., 0xEF / 255.)
+#:set grey (0xBB / 255., 0xAD / 255., 0xA0 / 255.)
+#:set dark_grey (0x77 / 255., 0x6e / 255., 0x65 / 255., 1.)
+#:set light_blue (0xe0 / 255., 0xe0 / 255., 0xe0 / 255.)
+#:set dark_blue (0x28 / 255., 0x5D / 255., 0x74 / 255., 1.)
 
 <MenuScreen>:
     BoxLayout:
@@ -56,14 +63,14 @@
 
 	canvas:
 		Color:
-			rgb: 0xE7 / 255., 0xC7 / 255., 0x83 / 255.
+			rgb: light_brown
 		BorderImage:
 			pos: self.pos
 			size: self.size
 			source: 'data/img/mask.png'
 
 	Label:
-	    color: 0xB8 / 255., 0x91 / 255., 0x3D / 255., 1
+	    color: brown
 		text: root.letter
 		font_size: min(self.height, self.width) / 2.5
 		bold: True
@@ -76,7 +83,7 @@
 	padding: '8dp'
 	canvas.before:
 		Color:
-			rgb: 0xbb / 255., 0xad / 255., 0xa0 / 255.
+			rgb: grey
 		BorderImage:
 			pos: self.pos
 			size: self.size
@@ -86,8 +93,8 @@
 		source: root.source
 
 <TextButton@Button>:
-	color: 1, 1, 1, 1
-	background_color: 0x28 / 255., 0x5D / 255., 0x74 / 255., 1.
+	color: white
+	background_color: dark_blue
 	background_normal: 'data/img/mask.png'
 	background_down: 'data/img/mask.png'
 	size_hint_y: None
@@ -102,7 +109,7 @@
         orientation: 'vertical' if self.height > self.width else 'horizontal'
         canvas:
             Color:
-                rgb: 0xe0 / 255., 0xe0 / 255., 0xe0 / 255.
+                rgb: light_blue
             Rectangle:
                 pos: self.pos
                 size: self.size
@@ -119,17 +126,17 @@
                 Label:
                     text: 'Meow Letters'
                     font_size: min(root.height, root.width) / 10.
-                    color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
+                    color: dark_grey
                     bold: True
                 Label:
                     text: 'Level ' + str(game.level)
-                    color: 0x28 / 255., 0x5D / 255., 0x74 / 255., 1.
+                    color: dark_blue
                     font_size: root.height / 14
                     bold: True
                     halign: 'left'
                 Label:
                     text: 'Score ' + str(game.score)
-                    color: 0x28 / 255., 0x5D / 255., 0x74 / 255., 1.
+                    color: dark_blue
                     font_size: root.height / 18
                     bold: True
 
@@ -153,7 +160,8 @@
 
 		canvas:
 			Color:
-				rgba: 0xfa / 255., 0xf8 / 255., 0xef / 255., self.opacity - 0.2
+				rgb: light_grey
+				#TODO set relative opacity: self.opacity - 0.2
 			BorderImage:
 				pos: self.pos
 				size: self.size
@@ -167,7 +175,7 @@
 			Label:
 				id: end_label
 				font_size: min(self.height, self.width) / 3.
-				color: 0x28 / 255., 0x5D / 255., 0x74 / 255., 1.
+				color: dark_blue
 				bold: True
 				text: 'Game\nover!'
 				halign: 'center'
