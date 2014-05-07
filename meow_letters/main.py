@@ -11,8 +11,8 @@ from kivy.properties import StringProperty, NumericProperty, ObjectProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.uix.widget import Widget
 
-from meow_letters.storage.meowjson import SettingsJson
-from meow_letters.constants.colors import *
+from storage.meowjson import SettingsJson
+from constants.colors import BLUE, LIGHTER_BLUE
 
 
 GRID_SIZE = 5
