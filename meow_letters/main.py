@@ -44,11 +44,11 @@ class Game(Widget):
         self.canvas.before.clear()
         with self.canvas.before:
             Color(*BLUE)
-            BorderImage(pos=self.pos, size=self.size, source='data/img/mask.png')
             Color(*LIGHTER_BLUE)
+            BorderImage(pos=self.pos, size=self.size, source='assets/img/mask.png')
             for ix, iy in self.iterate_pos():
                 BorderImage(pos=self.index_to_pos(ix, iy), size=(self.tile_size, self.tile_size),
-                source='data/img/mask.png')
+                source='assets/img/mask.png')
 
     def reposition(self, *args):
         self.rebuild_background()
