@@ -140,24 +140,27 @@
             size_hint_y: .25 if root.height > root.width else 1
 
             BoxLayout:
-                spacing: '30dp'
+                spacing: '34dp'
                 padding: '15dp'
                 orientation: 'vertical'
 
                 Label:
                     text: 'Meow Letters'
+                    font_name: 'assets/fonts/Roboto-Light.ttf'
                     font_size: min(root.height, root.width) / 10.
                     color: dark_grey
                     bold: True
                 Label:
                     text: 'Level ' + str(game.level)
                     color: dark_blue
+                    font_name: 'assets/fonts/Roboto-Light.ttf'
                     font_size: root.height / 14
                     bold: True
                     halign: 'left'
                 Label:
                     text: 'Score ' + str(game.score)
                     color: dark_blue
+                    font_name: 'assets/fonts/Roboto-Light.ttf'
                     font_size: root.height / 18
                     bold: True
 
