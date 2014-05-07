@@ -65,7 +65,7 @@
         spacing: '10dp'
         Label:
             text: 'Username'
-            color: dark_blue
+            color: dark_brown
             size_hint_y: None
             font_size: min(root.height, root.width) / 14.
         TextInput:
@@ -73,7 +73,8 @@
             height: min(root.height, root.width) / 8.
             font_size: min(root.height, root.width) / 20.
             multiline: False
-            padding: [10, (self.height-self.font_size)/2]
+            padding: [10, (self.height-self.font_size)/2.5]
+            foreground_color: dark_brown
 
 <Letter>:
 	canvas.before:
