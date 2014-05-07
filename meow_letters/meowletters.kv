@@ -53,6 +53,7 @@
         text: "This is going to be the highscores screen"
 
 <SettingsScreen>:
+    username_input: username_input
     canvas:
         Color:
             rgb: light_blue
@@ -69,6 +70,7 @@
             size_hint_y: None
             font_size: min(root.height, root.width) / 14.
         TextInput:
+            id: username_input
             size_hint_y: None
             height: min(root.height, root.width) / 8.
             font_size: min(root.height, root.width) / 20.

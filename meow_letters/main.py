@@ -7,10 +7,11 @@ from kivy.base import EventLoop
 from kivy.config import Config
 from kivy.clock import Clock
 from kivy.graphics import Color, BorderImage
-from kivy.properties import StringProperty, NumericProperty
+from kivy.properties import StringProperty, NumericProperty, ObjectProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.uix.widget import Widget
 
+from meow_letters.storage.meowjson import SettingsJson
 from meow_letters.constants.colors import *
 
 
@@ -199,7 +200,14 @@ class HighscoresScreen(Screen):
     pass
 
 class SettingsScreen(Screen):
-    pass
+    username_input = ObjectProperty(None)
+    io = SettingsJson("data/settings.json")
+
+    def on_leave(self):
+        self.io.save_username(self.username_input.text)
+
+    def on_pre_enter(self):
+        self.username_input.text = self.io.get_username()
 
 
 class MeowLettersApp(App):
