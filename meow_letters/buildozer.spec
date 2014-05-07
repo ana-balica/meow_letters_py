@@ -13,7 +13,7 @@ package.domain = org.meow
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas
+source.include_exts = py,png,jpg,kv,atlas,ttf
 
 # (list) Source files to exclude (let empty to not exclude anything)
 #source.exclude_exts = spec
@@ -38,10 +38,10 @@ requirements = kivy
 #garden_requirements =
 
 # (str) Presplash of the application
-presplash.filename = %(source.dir)s/data/img/presplash.png
+presplash.filename = %(source.dir)s/assets/img/presplash.png
 
 # (str) Icon of the application
-icon.filename = %(source.dir)s/data/img/icon.png
+icon.filename = %(source.dir)s/assets/img/icon.png
 
 # (str) Supported orientation (one of landscape, portrait or all)
 orientation = portrait
