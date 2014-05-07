@@ -11,13 +11,17 @@
 
 <MenuButton@Button>:
 	background_color: dark_blue
+	background_normal: 'assets/img/mask_rounded_corners.png'
+	background_down: 'assets/img/mask_rounded_corners.png'
 	font_size: '20dp'
 	bold: True
+	size_hint: (1.0, 0.3)
 
 <MenuScreen>:
     BoxLayout:
         orientation: "vertical"
-        padding: '30dp', '10dp', '30dp', '40dp'
+        padding: '30dp', '10dp', '30dp', '140dp'
+        spacing: '8dp'
         canvas:
             Color:
                 rgb: light_blue
@@ -26,7 +30,8 @@
                 size: self.size
         Label:
             text: "Meow Letters"
-            font_size: min(root.height, root.width) / 10.
+            font_name: 'assets/fonts/Roboto-Light.ttf'
+            font_size: min(root.height, root.width) / 8.
             color: dark_grey
             bold: True
         MenuButton:
