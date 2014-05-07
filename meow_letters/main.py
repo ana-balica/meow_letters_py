@@ -3,6 +3,7 @@ from string import letters
 
 from kivy.animation import Animation
 from kivy.app import App
+from kivy.base import EventLoop
 from kivy.config import Config
 from kivy.clock import Clock
 from kivy.graphics import Color, BorderImage
@@ -14,6 +15,8 @@ from meow_letters.constants.colors import *
 
 
 GRID_SIZE = 5
+BACK_KEY = 27
+
 
 class MenuScreen(Screen):
     pass
@@ -200,14 +203,22 @@ class SettingsScreen(Screen):
 
 
 class MeowLettersApp(App):
+    def on_start(self):
+        EventLoop.window.bind(on_keyboard=self.hook_keyboard)
+
     def build(self):
-        root = ScreenManager(transition=NoTransition())
-        root.add_widget(MenuScreen(name='menu'))
-        root.add_widget(GameScreen(name='game'))
-        root.add_widget(GameOverScreen(name='gameover'))
-        root.add_widget(HighscoresScreen(name='highscores'))
-        root.add_widget(SettingsScreen(name='settings'))
-        return root
+        self.manager = ScreenManager(transition=NoTransition())
+        self.manager.add_widget(MenuScreen(name='menu'))
+        self.manager.add_widget(GameScreen(name='game'))
+        self.manager.add_widget(GameOverScreen(name='gameover'))
+        self.manager.add_widget(HighscoresScreen(name='highscores'))
+        self.manager.add_widget(SettingsScreen(name='settings'))
+        return self.manager
+
+    def hook_keyboard(self, window, key, *args):
+        if key == BACK_KEY:
+            self.manager.current = 'menu'
+            return True
 
 
 if __name__ == '__main__':
