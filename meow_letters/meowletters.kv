@@ -2,9 +2,9 @@
 #:set white (1, 1, 1, 1)
 #:set light_brown (0xE7 / 255., 0xC7 / 255., 0x83 / 255.)
 #:set brown (0xB8 / 255., 0x91 / 255., 0x3D / 255., 1)
+#:set dark_brown (0x77 / 255., 0x6e / 255., 0x65 / 255., 1.)
 #:set light_grey (0xFA / 255., 0xF8 / 255., 0xEF / 255.)
 #:set grey (0xBB / 255., 0xAD / 255., 0xA0 / 255.)
-#:set dark_grey (0x77 / 255., 0x6e / 255., 0x65 / 255., 1.)
 #:set light_blue (0xe0 / 255., 0xe0 / 255., 0xe0 / 255.)
 #:set dark_blue (0x28 / 255., 0x5D / 255., 0x74 / 255., 1.)
 
@@ -32,7 +32,7 @@
             text: "Meow Letters"
             font_name: 'assets/fonts/Roboto-Light.ttf'
             font_size: min(root.height, root.width) / 8.
-            color: dark_grey
+            color: dark_brown
             bold: True
         MenuButton:
             text: 'New game'
@@ -148,7 +148,7 @@
                     text: 'Meow Letters'
                     font_name: 'assets/fonts/Roboto-Light.ttf'
                     font_size: min(root.height, root.width) / 10.
-                    color: dark_grey
+                    color: dark_brown
                     bold: True
                 Label:
                     text: 'Level ' + str(game.level)
