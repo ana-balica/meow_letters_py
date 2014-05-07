@@ -53,22 +53,27 @@
         text: "This is going to be the highscores screen"
 
 <SettingsScreen>:
+    canvas:
+        Color:
+            rgb: light_blue
+        Rectangle:
+            pos: self.pos
+            size: self.size
     BoxLayout:
         orientation: 'vertical'
-        BoxLayout:
-            orientation: 'vertical'
-            Label:
-                text: 'Username'
-            TextInput:
-                text: ''
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint: 1.0, 0.1
-            Button:
-                text: 'Cancel'
-                on_press: root.manager.current = 'menu'
-            Button:
-                text: 'OK'
+        padding: '30dp', self.height / 2
+        spacing: '10dp'
+        Label:
+            text: 'Username'
+            color: dark_blue
+            size_hint_y: None
+            font_size: min(root.height, root.width) / 14.
+        TextInput:
+            size_hint_y: None
+            height: min(root.height, root.width) / 8.
+            font_size: min(root.height, root.width) / 20.
+            multiline: False
+            padding: [10, (self.height-self.font_size)/2]
 
 <Letter>:
 	canvas.before:
