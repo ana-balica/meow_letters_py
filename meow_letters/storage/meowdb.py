@@ -12,31 +12,37 @@ class SqliteDatabase(object):
         self.conn = sqlite3.connect(dbname)
         self.cursor = self.conn.cursor()
 
-    def execute(self, query, commit=False):
+    def execute(self, query):
         """Execute a query
 
         :param query: string sqlite valid query
-        :param commit: bool if True commit the transaction, otherwise don't yet commit
         """
         self.cursor.execute(query)
-        if commit:
-            self.conn.commit()
+        self.conn.commit()
 
-    def executemany(self, query, values, commit=True):
+    def executemany(self, query, values):
         """Execute many query simultaneously
 
         :param query: string sqlite valid query
         :param values: list of values to fill in the query
-        :param commit: bool if True commit the transaction, otherwise don't yet commit
         """
         self.cursor.executemany(query, values)
-        if commit:
-            self.conn.commit()
-
-    def commit(self):
-        """Commit transactions
-        """
         self.conn.commit()
+
+    def fetch(self, type='all'):
+        """Commit transactions
+
+        :param type: string type of fetch - one, all, many
+        :return: fetched data
+        """
+        if type == 'all':
+            return self.cursor.fetchall()
+        elif type ==  'one':
+            return self.cursor.fetchone()
+        elif type == 'many':
+            return self.cursor.fetchmany()
+        else:
+            raise ValueError("Unknown type of fetch - {}".format(type))
 
     def close(self):
         """Close the connection
