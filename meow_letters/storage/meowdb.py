@@ -59,11 +59,29 @@ class MeowDatabase(object):
         self.dbname = 'meowletters.db'
         self.db = SqliteDatabase(self.dbname)
 
-    def _sanitize(self):
+    def _sanitize_highscores(self):
+        """Sanitize the highscores table by deleting entries with lower score than
+        the last entry from the top ten hits
+        """
         pass
 
-    def save_highscore(self, username, highscore):
-        pass
+    def insert_highscore(self, username, highscore):
+        """Insert a highscore entry
+
+        :param username: string username
+        :param highscore: int highscore value
+        :return: the current instance
+        """
+        query = "INSERT INTO highscores VALUES (NULL, {0}, {1})".format(username, highscore)
+        self.db.execute(query)
+        return self
 
     def get_top_highscores(self):
-        pass
+        """Get top 10 highscores. If table contains less than 10 hits, return all
+        of them
+
+        :return: list of hits containing (username, highscore)
+        """
+        query = "SELECT username, highscore FROM highscores ORDER BY highscore DESC LIMIT 10"
+        self.db.execute(query)
+        return self.db.fetch('all')
