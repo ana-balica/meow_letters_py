@@ -16,6 +16,7 @@ class SqliteDatabase(object):
         """Execute a query
 
         :param query: string sqlite valid query
+        :param params: tuple of parameters
         """
         self.cursor.execute(query, params)
         self.conn.commit()
