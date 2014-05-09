@@ -212,7 +212,7 @@ class LetterChain(object):
         if letter == self.chain[0]:
             self.chain = []
         else:
-            letter_index = ALPHABET.index(letter.letter)
+            letter_index = self.chain.index(letter)
             for i in reversed(xrange(letter_index, len(self.chain))):
                 self.chain.remove(self.chain[i])
         return self
