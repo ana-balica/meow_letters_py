@@ -10,9 +10,10 @@ from kivy.graphics import Color, BorderImage
 from kivy.properties import StringProperty, NumericProperty, ObjectProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.uix.widget import Widget
+from letters import LetterGrid
 
 from storage.meowjson import SettingsJson
-from constants.colors import BLUE, LIGHTER_BLUE
+from constants.colors import *
 
 
 GRID_SIZE = 5
@@ -36,6 +37,7 @@ class Game(Widget):
         """
         super(Game, self).__init__()
         self.grid = [[None for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
+        self.letter_grid = LetterGrid(GRID_SIZE)
         self.restart()
 
     def rebuild_background(self):
@@ -132,7 +134,7 @@ class Game(Widget):
         :param y: index on Y axis
         :param value: the letter
         """
-        letter = Letter(
+        letter = LetterCell(
                 size=(self.tile_size, self.tile_size),
                 pos=self.index_to_pos(x, y),
                 letter=str(value))
@@ -146,8 +148,19 @@ class Game(Widget):
         relative_coordinates = self.to_widget(touch.pos[0], touch.pos[1], True)
         x, y = self.pos_to_index(relative_coordinates)
         if not x is None and not y is None:
-            self.spawn_letter_at(x, y, choice(letters).upper())
+            #self.spawn_letter_at(x, y, choice(letters).upper())
+            self.toggle(x, y)
         return True
+
+    def toggle(self, x, y):
+        letter = self.letter_grid[x][y]
+        if letter is not None:
+            if letter.is_selected():
+                letter.unselect()
+                self.grid[x][y].unselect()
+            else:
+                letter.select()
+                self.grid[x][y].select()
 
     def end(self):
         """Shows a Game over screen inspired from 2048
@@ -167,22 +180,31 @@ class Game(Widget):
             child.destroy()
         self.grid = [[None for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
         self.reposition()
-        Clock.schedule_once(self.spawn_rand_letter, .1)
-        Clock.schedule_once(self.spawn_rand_letter, .1)
-        Clock.schedule_once(self.spawn_rand_letter, .1)
+        self.letter_grid.setup(3)
+        Clock.schedule_once(self.redraw)
         self.ids.end.opacity = 0
 
-class Letter(Widget):
+    def redraw(self, *args):
+        for x, y in self.letter_grid.iterate_pos():
+            if self.letter_grid[x][y] is None:
+                if self.grid[x][y] is not None:
+                    self.remove_widget(self.grid[x][y])
+                    self.grid[x][y] = None
+            else:
+                self.spawn_letter_at(x, y, self.letter_grid[x][y].letter)
+
+class LetterCell(Widget):
     """ This class represents single letter from the grid.
     (WOW! The grid. So much TRON. Very Cycle. Such ISO.)
     """
     letter = StringProperty('A')
     scale = NumericProperty(.1)
+    bg_color = ObjectProperty(LIGHT_BROWN)
 
     def __init__(self, **kwargs):
         """Letter class initializer. Animating letters like 2048.
         """
-        super(Letter, self).__init__(**kwargs)
+        super(LetterCell, self).__init__(**kwargs)
         anim = Animation(scale=1., d=.15, t='out_quad')
         anim.bind(on_complete=self.clean_canvas)
         anim.start(self)
@@ -190,6 +212,12 @@ class Letter(Widget):
     def clean_canvas(self, *args):
         self.canvas.before.clear()
         self.canvas.after.clear()
+
+    def select(self):
+        self.bg_color = WHITE
+
+    def unselect(self):
+            self.bg_color = LIGHT_BROWN
 
 class GameScreen(Screen):
     pass

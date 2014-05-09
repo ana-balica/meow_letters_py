@@ -78,7 +78,7 @@
             padding: [10, (self.height-self.font_size)/2.5]
             foreground_color: dark_brown
 
-<Letter>:
+<LetterCell>:
 	canvas.before:
 		PushMatrix
 		Translate:
@@ -92,7 +92,7 @@
 
 	canvas:
 		Color:
-			rgb: light_brown
+			rgb: root.bg_color
 		BorderImage:
 			pos: self.pos
 			size: self.size
