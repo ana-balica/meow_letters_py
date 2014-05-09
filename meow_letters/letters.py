@@ -342,3 +342,73 @@ class LetterBoard(object):
                     adjacent_combinations.extend([combination])
 
         return adjacent_combinations
+
+
+class LetterGrid(object):
+    def __init__(self, size):
+        self.size = size
+        self.create_grid()
+
+    def __getitem__(self, item):
+        return self.grid[item]
+
+    def create_grid(self):
+        """Initializes the grid with None values
+        """
+        self.grid = [[None for i in range(self.size)] for j in range(self.size)]
+
+    def setup(self, n):
+        """Initializes the board with n random letters with a precomputed
+        consecutive pair of letters
+
+        :param n: int number of letters to initialize the board with
+        :return: the current instance
+        """
+        self.create_grid()
+        random_letters = []
+        for i in xrange(n-1):
+            letter = Letter(random.choice(ALPHABET))
+            random_letters.append(letter)
+        chosen_letter = random.choice(random_letters)
+        random_letters.append(chosen_letter.any_adjacent)
+        self.place_randomly(random_letters)
+        return self
+
+    def place_randomly(self, letters):
+        """Place randomly on the board a list of letters
+
+        :param letters: iterable data structure of Letter objects
+        """
+        free_cells = []
+        for i in xrange(self.size):
+            for j in xrange(self.size):
+                if self.grid[i][j] is None:
+                    free_cells.append([i, j])
+
+        for letter in letters:
+            random.shuffle(free_cells)
+            i, j = free_cells.pop()
+            self.grid[i][j] = letter
+
+    def iterate(self):
+        """Helper iterator. Iterates through all cells.
+        """
+        for ix, iy in self.iterate_pos():
+            child = self.grid[ix][iy]
+            if child:
+                yield ix, iy, child
+
+    def iterate_empty(self):
+        """Helper iterator. Iterates through empty cells.
+        """
+        for ix, iy in self.iterate_pos():
+            child = self.grid[ix][iy]
+            if not child:
+                yield ix, iy
+
+    def iterate_pos(self):
+        """Helper iterator. Returns index iterator.
+        """
+        for ix in range(self.size):
+            for iy in range(self.size):
+                yield ix, iy
