@@ -195,6 +195,7 @@ class LetterChain(object):
         if not isinstance(letter, Letter):
             raise ValueError("Only letters can be added to a LetterChain, "
                              "received {0}".format(letter))
+        letter.select()
         self.chain.append(letter)
         return self
 

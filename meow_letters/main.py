@@ -160,7 +160,6 @@ class Game(Widget):
                     self.chain.remove(letter)
                     letter.unselect()
             else:
-                letter.select()
                 self.chain.add(letter)
                 if not self.chain.is_valid():
                     self.chain.clear()
