@@ -235,6 +235,13 @@ class LetterChain(object):
         else:
             return False
 
+    def clear(self):
+        """Unselect all letters and clear the chain.
+        """
+        for letter in self.chain:
+            letter.unselect()
+        self.chain = []
+
 
 class LetterBoard(object):
     """Represents all available letters on the board
