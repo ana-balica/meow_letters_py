@@ -90,8 +90,8 @@ class Game(Widget):
         """Translates mathematical index in the grid to the exact
         pixel position.
 
-        :param x index on the x axis.
-        :param y index on the y axis.
+        :param x: index on the x axis.
+        :param y: index on the y axis.
         """
         padding = self.tile_padding
         tile_size = self.tile_size
@@ -102,7 +102,7 @@ class Game(Widget):
     def pos_to_index(self, coordinates):
         """Translates the pixel coordinates into mathematical indexes.
 
-        :param coordinates a tuple with (x, y) pixel coordinates.
+        :param coordinates: a tuple with (x, y) pixel coordinates.
         """
         grid_length = (self.tile_size + self.tile_padding) * GRID_SIZE + self.tile_padding
         if coordinates[0] < 0 \
@@ -128,9 +128,9 @@ class Game(Widget):
     def spawn_letter_at(self, x, y, value):
         """Spawns a letter to a predefined position.
 
-        :param x index on X axis
-        :param y index on Y axis
-        :param value the letter
+        :param x: index on X axis
+        :param y: index on Y axis
+        :param value: the letter
         """
         letter = Letter(
                 size=(self.tile_size, self.tile_size),
