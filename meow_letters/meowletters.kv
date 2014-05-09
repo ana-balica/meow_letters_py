@@ -49,8 +49,43 @@
         text: "This is going to be the game over screen"
 
 <HighscoresScreen>:
-    Label:
-        text: "This is going to be the highscores screen"
+    StackLayout:
+        id: highscores_layout
+        orientation: 'lr-tb'
+        padding: '30dp', '30dp', '30dp', '40dp'
+        spacing: '4dp'
+        canvas:
+            Color:
+                rgb: light_blue
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Label:
+            text: "Highscores"
+            color: dark_brown
+            font_size: min(root.height, root.width) / 10.
+            width: root.width
+            size_hint_y: None
+            height: min(root.height, root.width) / 4.
+        Label:
+            text: "1.  name"
+            halign: "left"
+            color: dark_blue
+            font_size: min(root.height, root.width) / 18.
+            width: root.width / 2.5
+            height: min(root.height, root.width) / 16.
+            text_size: (root.width / 2.5, None)
+            size_hint: (None, None)
+        Label:
+            text: "1234"
+            halign: "right"
+            color: dark_blue
+            font_size: min(root.height, root.width) / 18.
+            width: root.width / 2.5
+            height: min(root.height, root.width) / 16.
+            text_size: (root.width / 2.5, None)
+            size_hint: (None, None)
+
 
 <SettingsScreen>:
     username_input: username_input
