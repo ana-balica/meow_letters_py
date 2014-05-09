@@ -230,7 +230,7 @@ class LetterChain(object):
             return False
         next_letters = chain[0].get_next_letters(len(chain)-1)
         next_letters.insert(0, chain[0])
-        if chain == next_letters:
+        if self.chain == next_letters:
             return True
         else:
             return False
