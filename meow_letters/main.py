@@ -156,11 +156,8 @@ class Game(Widget):
         letter = self.letter_grid[x][y]
         if letter is not None:
             if letter.is_selected():
-                if self.chain.chain[-1] == letter:
-                    self.chain.remove(letter)
-                    letter.unselect()
+                self.chain.remove(letter)
             else:
-                letter.select()
                 self.chain.add(letter)
                 if not self.chain.is_valid():
                     self.chain.clear()

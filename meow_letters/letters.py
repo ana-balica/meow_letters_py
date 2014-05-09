@@ -195,6 +195,7 @@ class LetterChain(object):
         if not isinstance(letter, Letter):
             raise ValueError("Only letters can be added to a LetterChain, "
                              "received {0}".format(letter))
+        letter.select()
         self.chain.append(letter)
         return self
 
@@ -209,12 +210,11 @@ class LetterChain(object):
             raise ValueError("Can't remove from empty chain")
         if letter not in self.chain:
             raise ValueError("Error: {0} is not in the chain".format(letter))
-        if letter == self.chain[0]:
-            self.chain = []
-        else:
-            letter_index = ALPHABET.index(letter.letter)
-            for i in reversed(xrange(letter_index, len(self.chain))):
-                self.chain.remove(self.chain[i])
+
+        letter_index = self.chain.index(letter)
+        for i in reversed(xrange(letter_index, len(self.chain))):
+            self.chain[i].unselect()
+            self.chain.remove(self.chain[i])
         return self
 
     def is_valid(self):
