@@ -10,7 +10,7 @@ from kivy.graphics import Color, BorderImage
 from kivy.properties import StringProperty, NumericProperty, ObjectProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.uix.widget import Widget
-from letters import LetterGrid
+from letters import LetterGrid, LetterChain
 
 from storage.meowjson import SettingsJson
 from constants.colors import *
@@ -38,6 +38,7 @@ class Game(Widget):
         super(Game, self).__init__()
         self.grid = [[None for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
         self.letter_grid = LetterGrid(GRID_SIZE)
+        self.chain = LetterChain()
         self.restart()
 
     def rebuild_background(self):
@@ -147,8 +148,7 @@ class Game(Widget):
         """
         relative_coordinates = self.to_widget(touch.pos[0], touch.pos[1], True)
         x, y = self.pos_to_index(relative_coordinates)
-        if not x is None and not y is None:
-            #self.spawn_letter_at(x, y, choice(letters).upper())
+        if x is not None and y is not None:
             self.toggle(x, y)
         return True
 
@@ -156,11 +156,23 @@ class Game(Widget):
         letter = self.letter_grid[x][y]
         if letter is not None:
             if letter.is_selected():
-                letter.unselect()
-                self.grid[x][y].unselect()
+                if self.chain.chain[-1] == letter:
+                    self.chain.remove(letter)
+                    letter.unselect()
             else:
                 letter.select()
+                self.chain.add(letter)
+                if not self.chain.is_valid():
+                    self.chain.clear()
+
+            self.update_grid()
+
+    def update_grid(self):
+        for x, y, letter in self.letter_grid.iterate():
+            if letter.is_selected():
                 self.grid[x][y].select()
+            else:
+                self.grid[x][y].unselect()
 
     def end(self):
         """Shows a Game over screen inspired from 2048
@@ -217,7 +229,7 @@ class LetterCell(Widget):
         self.bg_color = WHITE
 
     def unselect(self):
-            self.bg_color = LIGHT_BROWN
+        self.bg_color = LIGHT_BROWN
 
 class GameScreen(Screen):
     pass
