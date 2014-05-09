@@ -62,9 +62,15 @@ class MeowDatabase(object):
     def _sanitize_highscores(self):
         """Sanitize the highscores table by deleting entries with lower score than
         the last entry from the top ten hits
+
+        :return: the current instance
         """
         query = "SELECT highscore FROM highscores ORDER BY highscore DESC LIMIT 10"
-        pass
+        self.db.execute(query)
+        min_highscore = self.db.fetch('all')[-1][0]
+        query = "DELETE FROM highscores WHERE highscore < {0}".format(min_highscore)
+        self.db.execute(query)
+        return self
 
     def insert_highscore(self, username, highscore):
         """Insert a highscore entry
@@ -76,6 +82,7 @@ class MeowDatabase(object):
         query = """INSERT INTO highscores VALUES (Null, ?, ?)"""
         params = (username, highscore)
         self.db.execute(query, params)
+        self._sanitize_highscores()
         return self
 
     def get_top_highscores(self):
