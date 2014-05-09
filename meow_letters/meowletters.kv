@@ -168,7 +168,6 @@
 
 <GameScreen>:
     BoxLayout:
-        padding: '10dp'
         spacing: '10dp'
         orientation: 'vertical' if self.height > self.width else 'horizontal'
         canvas:
@@ -179,8 +178,9 @@
                 size: self.size
 
         BoxLayout:
+            padding: '10dp'
             orientation: 'vertical' if root.height > root.width else 'horizontal'
-            size_hint_y: .25 if root.height > root.width else 1
+            size_hint_y: .35 if root.height > root.width else 1
 
             BoxLayout:
                 spacing: '34dp'
@@ -208,12 +208,13 @@
                     bold: True
 
         AnchorLayout:
+            padding: '10dp'
             id: anchor
 
             Game:
                 id: game
                 size_hint: None, None
-                size: [min(anchor.width, anchor.height)] * 2
+                size: [min(anchor.width, anchor.height) - 2 * anchor.padding] * 2
                 on_size: self.reposition()
                 on_pos: self.reposition()
 
