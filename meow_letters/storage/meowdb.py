@@ -12,12 +12,12 @@ class SqliteDatabase(object):
         self.conn = sqlite3.connect(dbname)
         self.cursor = self.conn.cursor()
 
-    def execute(self, query):
+    def execute(self, query, params=()):
         """Execute a query
 
         :param query: string sqlite valid query
         """
-        self.cursor.execute(query)
+        self.cursor.execute(query, params)
         self.conn.commit()
 
     def executemany(self, query, values):
