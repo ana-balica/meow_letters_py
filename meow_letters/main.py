@@ -136,6 +136,7 @@ class Game(Widget):
                 size=(self.tile_size, self.tile_size),
                 pos=self.index_to_pos(x, y),
                 letter=str(value))
+        self.remove_widget(self.grid[x][y])
         self.grid[x][y] = letter
         self.add_widget(letter)
 
