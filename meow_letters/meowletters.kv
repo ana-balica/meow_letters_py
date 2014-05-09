@@ -177,6 +177,13 @@
                 pos: self.pos
                 size: self.size
 
+        Timer:
+            id: timer
+            size_hint: None, 0.05
+            size: [root.width, (root.height * timer.size_hint_y)]
+            on_size: self.redraw()
+            on_pos: self.redraw()
+
         BoxLayout:
             padding: '10dp'
             orientation: 'vertical' if root.height > root.width else 'horizontal'
@@ -218,6 +225,7 @@
                 on_size: self.reposition()
                 on_pos: self.reposition()
 
+<Timer>:
 
 <Game>:
 	AnchorLayout:
