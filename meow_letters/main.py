@@ -15,6 +15,7 @@ from kivy.factory import Factory
 
 from constants.colors import *
 from letters import LetterGrid
+from level import Level
 from score import Score
 from storage.meowjson import SettingsJson
 from storage.meowdb import MeowDatabase
@@ -34,7 +35,6 @@ class Game(Widget):
     """
     tile_size = NumericProperty(10)
     tile_padding = NumericProperty(10)
-    level = NumericProperty(1)
 
     def __init__(self, **kwargs):
         """Game class initializer. Initializes the temporary grid.
@@ -43,6 +43,7 @@ class Game(Widget):
         self.grid = [[None for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
         self.letter_grid = LetterGrid(GRID_SIZE)
         self.score = Score()
+        self.level = Level()
         self.restart()
 
     def rebuild_background(self):
@@ -188,7 +189,8 @@ class Game(Widget):
     def restart(self):
         """Restarts the game. Puts three random letters on the board.
         """
-        self.score.points = 0
+        self.score.reset()
+        self.level.reset()
         for ix, iy, child in self.iterate():
             self.remove_widget(child)
         self.grid = [[None for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
@@ -208,6 +210,7 @@ class Game(Widget):
 
     def cycle_end(self):
         self.score.update(self.letter_grid.chain.length)
+        self.level.set_level(self.score.points)
         self.letter_grid.cycle_end()
         self.redraw()
 
@@ -272,6 +275,7 @@ class GameScreen(Screen):
         if timer.finished:
             self.ids.game.cycle_end()
             self.ids.score.text = "Score {0}".format(self.ids.game.score.points)
+            self.ids.level.text = "Level {0}".format(self.ids.game.level.level)
             timer.restart()
 
     def on_enter(self, *args):
