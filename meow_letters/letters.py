@@ -355,6 +355,7 @@ class LetterGrid(object):
     def __init__(self, size):
         self.size = size
         self.create_grid()
+        self.chain = LetterChain()
 
     def __getitem__(self, item):
         return self.grid[item]
@@ -419,3 +420,75 @@ class LetterGrid(object):
         for ix in range(self.size):
             for iy in range(self.size):
                 yield ix, iy
+
+    def cycle_end(self):
+        for x, y, letter in self.iterate():
+            if letter in self.chain.chain:
+                self.grid[x][y] = None
+                self.chain.chain.remove(letter)
+        self.add_random_letters(1)
+
+    def add_random_letters(self, level):
+        """Add some "random" letters according to the level
+
+        :param level: int user game level
+        :return: set of new random letters added to the board
+        """
+        if level < 0:
+            raise ValueError("The user level must be at least 1, received <{0}>".format(level))
+
+        random_letters = list()
+        if self.find_consecutive_combinations(level+1):
+            for _ in xrange(level+1):
+                letter = Letter(random.choice(ALPHABET))
+                random_letters.append(letter)
+        else:
+            chosen_letter = self.random_choice()
+            letters = chosen_letter.get_adjacent_letters(level+1)
+            letters.remove(chosen_letter)
+            random_letters += list(letters)
+            letter = Letter(random.choice(ALPHABET))
+            random_letters.append(letter)
+        self.place_randomly(random_letters)
+        return random_letters
+
+    def random_choice(self):
+        """Choses a random letter from the board.
+        :return: a single Letter object.
+        """
+        letters_pos = []
+        for x, y, letter in self.iterate():
+            letters_pos.append([x, y])
+
+        if not letters_pos:
+            return None
+        else:
+            x, y = random.choice(letters_pos)
+            return self.grid[x][y]
+
+    def find_consecutive_combinations(self, n):
+        """Find n number of consecutive letters on the board
+        For instance, 3 consecutive letters are 'X', 'Y' and 'Z'.
+
+        :param n: int number of consecutive letters to be found on the board
+        :return: list of non-duplicate lists with consecutive ordered letter strings
+        """
+        if n < 2:
+            raise ValueError("The minimum number of letters to build a chain is 2, \
+                             received <{0}>".format(n))
+
+        adjacent_combinations = []
+        text_letters = {l.letter for x, y, l in self.iterate()}
+        letters = [l for x, y, l in self.iterate()]
+        if not letters:
+            return True
+        letters.sort()
+        letters = [i for i, _ in itertools.groupby(letters)]  # de-duplicator
+        for letter in letters:
+            next_letters = letter.get_next_letters(n-1)
+            if next_letters:
+                if all(l.letter in text_letters for l in next_letters):
+                    combination = [letter.letter] + [i.letter for i in next_letters]
+                    adjacent_combinations.extend([combination])
+
+        return adjacent_combinations
