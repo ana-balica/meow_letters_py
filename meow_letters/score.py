@@ -25,7 +25,6 @@ class Score(object):
         :param n: int chain length
         :return: total number of points
         """
-        if n < 2:
-            raise ValueError("Minimum chain number must be 2, got <{0}>".format(n))
-        self.points += (n-1)*5
+        if n >= 2:
+            self.points += (n-1)*5
         return self.points
