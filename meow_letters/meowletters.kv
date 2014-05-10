@@ -171,30 +171,23 @@
             orientation: 'vertical' if root.height > root.width else 'horizontal'
             size_hint_y: .35 if root.height > root.width else 1
 
-            BoxLayout:
-                spacing: '34dp'
-                padding: '15dp'
-                orientation: 'vertical'
-
+            StackLayout:
                 Label:
-                    text: 'Meow Letters'
-                    font_name: 'assets/fonts/Roboto-Light.ttf'
-                    font_size: min(root.height, root.width) / 10.
+                    text: 'Level 1'
+                    color: dark_blue
+                    width: root.width
+                    size_hint_y: None
+                    height: min(root.height, root.width) / 6.
+                    font_name: 'assets/fonts/Roboto-Medium.ttf'
+                    font_size: root.height / 12
+                Label:
+                    text: 'Score 0'
                     color: dark_brown
-                    bold: True
-                Label:
-                    text: 'Level ' + str(game.level)
-                    color: dark_blue
-                    font_name: 'assets/fonts/Roboto-Light.ttf'
-                    font_size: root.height / 14
-                    bold: True
-                    halign: 'left'
-                Label:
-                    text: 'Score ' + str(game.score)
-                    color: dark_blue
+                    width: root.width
+                    size_hint_y: None
+                    height: min(root.height, root.width) / 8.
                     font_name: 'assets/fonts/Roboto-Light.ttf'
                     font_size: root.height / 18
-                    bold: True
 
         AnchorLayout:
             padding: '10dp'
