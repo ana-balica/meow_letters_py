@@ -202,6 +202,23 @@ class Game(Widget):
             else:
                 self.spawn_letter_at(x, y, self.letter_grid[x][y].letter)
 
+class Timer(Widget):
+    def __init__(self, **kwargs):
+        super(Timer, self).__init__()
+        self.bar_width = self.size[0]
+        self.redraw()
+        Clock.schedule_interval(self.tick, 0.1)
+
+    def redraw(self):
+        self.canvas.before.clear()
+        with self.canvas.before:
+            Color(*BLUE)
+            BorderImage(pos=self.pos, size=self.size, source='assets/img/mask.png')
+
+    def tick(self, *args):
+        self.size[0] -= self.bar_width / 60.
+        self.redraw()
+
 class LetterCell(Widget):
     """ This class represents single letter from the grid.
     (WOW! The grid. So much TRON. Very Cycle. Such ISO.)
