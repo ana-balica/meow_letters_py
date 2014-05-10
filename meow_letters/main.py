@@ -10,9 +10,12 @@ from kivy.graphics import Color, BorderImage
 from kivy.properties import StringProperty, NumericProperty, ObjectProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.uix.widget import Widget
+from kivy.uix.label import Label
+from kivy.factory import Factory
 from letters import LetterGrid, LetterChain
 
 from storage.meowjson import SettingsJson
+from storage.meowdb import MeowDatabase
 from constants.colors import *
 
 
@@ -251,8 +254,44 @@ class GameScreen(Screen):
 class GameOverScreen(Screen):
     pass
 
+class HighscoreLabel(Label):
+    def __init__(self, root, text, halign):
+        super(HighscoreLabel, self).__init__()
+        root = root
+        self.text = text
+        self.halign = halign
+        self.color = DARK_BLUE
+        self.font_size = min(root.height, root.width) / 18.
+        self.width = root.width / 2.5
+        self.height = min(root.height, root.width) / 16.
+        self.text_size = (root.width / 2.5, None)
+        self.size_hint = (None, None)
+
+
 class HighscoresScreen(Screen):
-    pass
+    highscores_layout = ObjectProperty(None)
+    io = MeowDatabase()
+
+    def on_enter(self):
+        self.highscores_layout.clear_widgets()
+        self.append_title()
+        highscores = self.io.get_top_highscores()
+        for i, entry in enumerate(highscores):
+            i += 1
+            username = "{0}.  {1}".format(i, entry[0])
+            self.highscores_layout.add_widget(HighscoreLabel(self.highscores_layout, username, "left"))
+            highscore = str(entry[1])
+            self.highscores_layout.add_widget(HighscoreLabel(self.highscores_layout, highscore, "right"))
+
+    def append_title(self):
+        self.highscores_layout.add_widget(
+            Label(text="Highscores",
+                  color=DARK_BROWN,
+                  font_size=min(self.highscores_layout.height, self.highscores_layout.width) / 10.,
+                  width=self.highscores_layout.width,
+                  size_hint_y=None,
+                  height=min(self.highscores_layout.height, self.highscores_layout.width) / 4.))
+
 
 class SettingsScreen(Screen):
     username_input = ObjectProperty(None)
