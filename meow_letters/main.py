@@ -18,6 +18,7 @@ from constants.colors import *
 
 GRID_SIZE = 5
 BACK_KEY = 27
+ROUND_SECONDS = 5
 
 
 class MenuScreen(Screen):
@@ -205,9 +206,9 @@ class Game(Widget):
 class Timer(Widget):
     def __init__(self, **kwargs):
         super(Timer, self).__init__()
-        self.bar_width = self.size[0]
         self.redraw()
-        Clock.schedule_interval(self.tick, 0.1)
+        self.interval = 0.05
+        Clock.schedule_interval(self.tick, self.interval)
 
     def redraw(self):
         self.canvas.before.clear()
@@ -216,8 +217,12 @@ class Timer(Widget):
             BorderImage(pos=self.pos, size=self.size, source='assets/img/mask.png')
 
     def tick(self, *args):
-        self.size[0] -= self.bar_width / 60.
+        width = self.parent.size[0]
+        self.size[0] -= width / (ROUND_SECONDS / self.interval)
         self.redraw()
+
+    def restart(self):
+        self.size[0] = self.parent.size[0]
 
 class LetterCell(Widget):
     """ This class represents single letter from the grid.
