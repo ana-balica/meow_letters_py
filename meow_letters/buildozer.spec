@@ -13,7 +13,7 @@ package.domain = org.meow
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,ttf,json
+source.include_exts = py,png,jpg,kv,atlas,ttf,json,db
 
 # (list) Source files to exclude (let empty to not exclude anything)
 #source.exclude_exts = spec
@@ -32,7 +32,7 @@ source.include_exts = py,png,jpg,kv,atlas,ttf,json
 version = 0.1
 
 # (list) Application requirements
-requirements = kivy
+requirements = sqlite3,kivy
 
 # (list) Garden requirements
 #garden_requirements =
