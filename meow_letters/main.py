@@ -220,7 +220,7 @@ class Timer(Widget):
     def redraw(self):
         self.canvas.before.clear()
         with self.canvas.before:
-            Color(*BLUE)
+            Color(*PINK)
             BorderImage(pos=self.pos, size=self.size, source='assets/img/mask.png')
 
     def tick(self, *args):
