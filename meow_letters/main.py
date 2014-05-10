@@ -12,7 +12,8 @@ from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.uix.widget import Widget
 from kivy.uix.label import Label
 from kivy.factory import Factory
-from letters import LetterGrid, LetterChain
+
+from letters import LetterGrid
 
 from storage.meowjson import SettingsJson
 from storage.meowdb import MeowDatabase
@@ -21,6 +22,7 @@ from constants.colors import *
 
 GRID_SIZE = 5
 BACK_KEY = 27
+ROUND_SECONDS = 5
 
 
 class MenuScreen(Screen):
@@ -41,7 +43,6 @@ class Game(Widget):
         super(Game, self).__init__()
         self.grid = [[None for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
         self.letter_grid = LetterGrid(GRID_SIZE)
-        self.chain = LetterChain()
         self.restart()
 
     def rebuild_background(self):
@@ -159,11 +160,11 @@ class Game(Widget):
         letter = self.letter_grid[x][y]
         if letter is not None:
             if letter.is_selected():
-                self.chain.remove(letter)
+                self.letter_grid.chain.remove(letter)
             else:
-                self.chain.add(letter)
-                if not self.chain.is_valid():
-                    self.chain.clear()
+                self.letter_grid.chain.add(letter)
+                if not self.letter_grid.chain.is_valid():
+                    self.letter_grid.chain.clear()
 
             self.update_grid()
 
@@ -189,7 +190,7 @@ class Game(Widget):
         """
         self.score = 0
         for ix, iy, child in self.iterate():
-            child.destroy()
+            self.remove_widget(child)
         self.grid = [[None for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
         self.reposition()
         self.letter_grid.setup(3)
@@ -205,12 +206,16 @@ class Game(Widget):
             else:
                 self.spawn_letter_at(x, y, self.letter_grid[x][y].letter)
 
+    def cycle_end(self):
+        self.letter_grid.cycle_end()
+        self.redraw()
+
 class Timer(Widget):
     def __init__(self, **kwargs):
         super(Timer, self).__init__()
-        self.bar_width = self.size[0]
         self.redraw()
-        Clock.schedule_interval(self.tick, 0.1)
+        self.interval = 0.05
+        self.finished = False
 
     def redraw(self):
         self.canvas.before.clear()
@@ -219,8 +224,16 @@ class Timer(Widget):
             BorderImage(pos=self.pos, size=self.size, source='assets/img/mask.png')
 
     def tick(self, *args):
-        self.size[0] -= self.bar_width / 60.
+        if self.size[0] < 0:
+            self.finished = True
+
+        width = self.parent.size[0]
+        self.size[0] -= width / (ROUND_SECONDS / self.interval)
         self.redraw()
+
+    def restart(self):
+        self.finished = False
+        self.size[0] = self.parent.size[0]
 
 class LetterCell(Widget):
     """ This class represents single letter from the grid.
@@ -249,7 +262,20 @@ class LetterCell(Widget):
         self.bg_color = LIGHT_BROWN
 
 class GameScreen(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super(GameScreen, self).__init__(**kwargs)
+
+    def tick(self, *args):
+        timer = self.ids.timer
+        timer.tick()
+        if timer.finished:
+            self.ids.game.cycle_end()
+            timer.restart()
+
+    def on_enter(self, *args):
+        Clock.schedule_interval(self.tick, self.ids.timer.interval)
+        self.ids.game.restart()
+        self.ids.timer.restart()
 
 class GameOverScreen(Screen):
     pass
