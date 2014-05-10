@@ -22,3 +22,11 @@ class Level(object):
                              "got <{0}>".format(points))
         self.level = int(points/100) + 1
         return self.level
+
+    def reset(self):
+        """Reset the level, set level to 1
+
+        :return: the current instance
+        """
+        self.level = 1
+        return self

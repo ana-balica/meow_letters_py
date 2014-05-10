@@ -28,3 +28,11 @@ class Score(object):
         if n >= 2:
             self.points += (n-1)*5
         return self.points
+
+    def reset(self):
+        """Reset the score, set points to 0
+
+        :return: the current instance
+        """
+        self.points = 0
+        return self
