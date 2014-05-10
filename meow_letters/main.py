@@ -187,7 +187,7 @@ class Game(Widget):
         """
         self.score = 0
         for ix, iy, child in self.iterate():
-            child.destroy()
+            self.remove_widget(child)
         self.grid = [[None for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
         self.reposition()
         self.letter_grid.setup(3)
@@ -251,7 +251,12 @@ class LetterCell(Widget):
         self.bg_color = LIGHT_BROWN
 
 class GameScreen(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super(GameScreen, self).__init__(**kwargs)
+
+    def on_enter(self, *args):
+        self.ids.game.restart()
+        self.ids.timer.restart()
 
 class GameOverScreen(Screen):
     pass
