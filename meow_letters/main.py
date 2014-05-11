@@ -158,6 +158,8 @@ class Game(Widget):
         return True
 
     def toggle(self, x, y):
+        game_screen = self.parent.parent.parent
+        decrement = Clock.create_trigger(game_screen.ids.timer.decrement)
         letter = self.letter_grid[x][y]
         if letter is not None:
             if letter.is_selected():
@@ -165,6 +167,7 @@ class Game(Widget):
             else:
                 self.letter_grid.chain.add(letter)
                 if not self.letter_grid.chain.is_valid():
+                    decrement()
                     self.letter_grid.chain.clear()
 
             self.update_grid()
@@ -238,6 +241,10 @@ class Timer(Widget):
     def restart(self):
         self.finished = False
         self.size[0] = self.parent.size[0]
+
+    def decrement(self, seconds=1):
+        width = self.parent.size[0]
+        self.size[0] -= width / 5
 
 class LetterCell(Widget):
     """ This class represents single letter from the grid.
