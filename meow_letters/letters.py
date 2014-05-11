@@ -186,6 +186,25 @@ class LetterChain(object):
         """
         return len(self.chain)
 
+    @property
+    def empty(self):
+        """Check if the chain is empty
+
+        :return: True if chain is empty, False otherwise
+        """
+        return True if not self.chain else False
+
+    @property
+    def last(self):
+        """Get the last element from the chain
+
+        :return: the last element from the chain, None if chain is empty
+        """
+        if self.empty:
+            return None
+        else:
+            return self.chain[-1]
+
     def add(self, letter):
         """Append to the end of the chain a letter
 
