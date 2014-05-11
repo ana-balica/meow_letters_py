@@ -441,9 +441,15 @@ class LetterGrid(object):
                 yield ix, iy
 
     def cycle_end(self):
+        valid_chain = True
+        if self.chain.chain.__len__() == 1:
+            valid_chain = False
+
         for x, y, letter in self.iterate():
             if letter in self.chain.chain:
-                self.grid[x][y] = None
+                letter.unselect()
+                if valid_chain:
+                    self.grid[x][y] = None
                 self.chain.chain.remove(letter)
         self.add_random_letters(1)
 
