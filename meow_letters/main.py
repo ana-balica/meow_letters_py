@@ -23,7 +23,7 @@ from storage.meowdb import MeowDatabase
 
 GRID_SIZE = 5
 BACK_KEY = 27
-ROUND_SECONDS = 5
+ROUND_SECONDS = 7
 
 
 class MenuScreen(Screen):
@@ -244,7 +244,8 @@ class Timer(Widget):
 
     def decrement(self, seconds=1):
         width = self.parent.size[0]
-        self.size[0] -= width / 5
+        self.size[0] -= width / ROUND_SECONDS
+
 
 class LetterCell(Widget):
     """ This class represents single letter from the grid.
