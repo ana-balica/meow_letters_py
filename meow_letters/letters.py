@@ -511,3 +511,32 @@ class LetterGrid(object):
                     adjacent_combinations.extend([combination])
 
         return adjacent_combinations
+
+    def has_letter(self, letter):
+        """Check if the grid contains a specific letter
+
+        :param letter: Letter object
+        :return: True if letter is found in the grid, False otherwise
+        """
+        for ix, iy, child in self.iterate():
+            if letter == child:
+                return True
+        return False
+
+    def is_complete_chain(self):
+        """Check if the chain is complete, in other words there are no more other
+        consecutive letters in the grid
+
+        :return: True if chain is complete, False - otherwise
+        """
+        if self.chain.length < 2:
+            return False
+        last = self.chain.last
+        if last:
+            next = last.next
+            if next:
+                return not self.has_letter(next)
+            else:
+                return True
+        else:
+            return False

@@ -170,6 +170,8 @@ class Game(Widget):
                     decrement()
                     self.letter_grid.chain.clear()
 
+            if self.letter_grid.is_complete_chain():
+                game_screen.ids.timer.reset()
             self.update_grid()
 
     def update_grid(self):
@@ -246,6 +248,9 @@ class Timer(Widget):
         width = self.parent.size[0]
         self.size[0] -= width / ROUND_SECONDS
 
+    def reset(self):
+        self.finished = True
+        self.size[0] = self.parent.size[0]
 
 class LetterCell(Widget):
     """ This class represents single letter from the grid.
