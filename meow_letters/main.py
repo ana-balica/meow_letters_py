@@ -218,6 +218,7 @@ class Game(Widget):
         self.level.set_level(self.score.points)
         self.letter_grid.cycle_end()
         self.redraw()
+        self.update_grid()
 
 class Timer(Widget):
     def __init__(self, **kwargs):
