@@ -446,8 +446,8 @@ class LetterGrid(object):
             valid_chain = False
 
         for x, y, letter in self.iterate():
+            letter.unselect()
             if letter in self.chain.chain:
-                letter.unselect()
                 if valid_chain:
                     self.grid[x][y] = None
                 self.chain.chain.remove(letter)
