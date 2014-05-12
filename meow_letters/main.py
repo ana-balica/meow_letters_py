@@ -307,6 +307,8 @@ class GameScreen(Screen):
         Clock.schedule_interval(self.tick, self.ids.timer.interval)
         self.ids.game.restart()
         self.ids.timer.restart()
+        self.ids.score.text = "Score {0}".format(self.ids.game.score.points)
+        self.ids.level.text = "Level {0}".format(self.ids.game.level.level)
 
 class GameOverScreen(Screen):
     pass
