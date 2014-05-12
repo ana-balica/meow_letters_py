@@ -413,11 +413,10 @@ class LetterGrid(object):
                 if self.grid[i][j] is None:
                     free_cells.append([i, j])
 
-        if not free_cells:
-            self.end = True
-            return
-
         for letter in letters:
+            if not free_cells:
+                self.end = True
+                return
             random.shuffle(free_cells)
             i, j = free_cells.pop()
             self.grid[i][j] = letter
