@@ -229,6 +229,7 @@ class Timer(Widget):
         self.finished = False
 
     def redraw(self):
+        self.opacity = 1
         self.canvas.before.clear()
         with self.canvas.before:
             Color(*PINK)
