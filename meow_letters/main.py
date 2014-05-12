@@ -44,6 +44,7 @@ class Game(Widget):
         self.letter_grid = LetterGrid(GRID_SIZE)
         self.score = Score()
         self.level = Level()
+        self.io = MeowDatabase()
         self.restart()
 
     def rebuild_background(self):
@@ -184,6 +185,7 @@ class Game(Widget):
     def end(self):
         """Shows a Game over screen inspired from 2048
         """
+        self.save_highscore()
         end = self.ids.end.__self__
         self.remove_widget(end)
         self.add_widget(end)
@@ -220,6 +222,10 @@ class Game(Widget):
         self.letter_grid.cycle_end()
         self.redraw()
         self.update_grid()
+
+    def save_highscore(self):
+        settings = SettingsJson("data/settings.json")
+        self.io.insert_highscore(settings.get_username(), self.score.points)
 
 class Timer(Widget):
     def __init__(self, **kwargs):
