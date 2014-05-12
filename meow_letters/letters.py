@@ -372,6 +372,7 @@ class LetterBoard(object):
 
 class LetterGrid(object):
     def __init__(self, size):
+        self.end = False
         self.size = size
         self.create_grid()
         self.chain = LetterChain()
@@ -411,6 +412,10 @@ class LetterGrid(object):
             for j in xrange(self.size):
                 if self.grid[i][j] is None:
                     free_cells.append([i, j])
+
+        if not free_cells:
+            self.end = True
+            return
 
         for letter in letters:
             random.shuffle(free_cells)

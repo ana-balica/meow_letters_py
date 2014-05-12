@@ -290,7 +290,15 @@ class GameScreen(Screen):
             self.ids.game.cycle_end()
             self.ids.score.text = "Score {0}".format(self.ids.game.score.points)
             self.ids.level.text = "Level {0}".format(self.ids.game.level.level)
-            timer.restart()
+            if self.ids.game.letter_grid.end:
+                self.ids.game.end()
+                self.timer_stop()
+                timer.opacity = 0
+            else:
+                timer.restart()
+
+    def timer_stop(self):
+        Clock.unschedule(self.tick)
 
     def on_enter(self, *args):
         Clock.unschedule(self.tick)
