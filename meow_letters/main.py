@@ -200,6 +200,7 @@ class Game(Widget):
             self.remove_widget(child)
         self.grid = [[None for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
         self.reposition()
+        self.letter_grid = LetterGrid(GRID_SIZE)
         self.letter_grid.setup(3)
         Clock.schedule_once(self.redraw)
         self.ids.end.opacity = 0
