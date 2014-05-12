@@ -200,6 +200,7 @@ class Game(Widget):
             self.remove_widget(child)
         self.grid = [[None for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
         self.reposition()
+        self.letter_grid = LetterGrid(GRID_SIZE)
         self.letter_grid.setup(3)
         Clock.schedule_once(self.redraw)
         self.ids.end.opacity = 0
@@ -228,6 +229,7 @@ class Timer(Widget):
         self.finished = False
 
     def redraw(self):
+        self.opacity = 1
         self.canvas.before.clear()
         with self.canvas.before:
             Color(*PINK)
@@ -290,9 +292,18 @@ class GameScreen(Screen):
             self.ids.game.cycle_end()
             self.ids.score.text = "Score {0}".format(self.ids.game.score.points)
             self.ids.level.text = "Level {0}".format(self.ids.game.level.level)
-            timer.restart()
+            if self.ids.game.letter_grid.end:
+                self.ids.game.end()
+                self.timer_stop()
+                timer.opacity = 0
+            else:
+                timer.restart()
+
+    def timer_stop(self):
+        Clock.unschedule(self.tick)
 
     def on_enter(self, *args):
+        Clock.unschedule(self.tick)
         Clock.schedule_interval(self.tick, self.ids.timer.interval)
         self.ids.game.restart()
         self.ids.timer.restart()
