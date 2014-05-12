@@ -156,6 +156,8 @@ class Game(Widget):
         x, y = self.pos_to_index(relative_coordinates)
         if x is not None and y is not None:
             self.toggle(x, y)
+
+        super(Game, self).on_touch_down(touch)
         return True
 
     def toggle(self, x, y):
