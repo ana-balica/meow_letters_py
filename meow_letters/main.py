@@ -293,6 +293,7 @@ class GameScreen(Screen):
             timer.restart()
 
     def on_enter(self, *args):
+        Clock.unschedule(self.tick)
         Clock.schedule_interval(self.tick, self.ids.timer.interval)
         self.ids.game.restart()
         self.ids.timer.restart()
