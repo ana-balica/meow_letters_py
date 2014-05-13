@@ -171,7 +171,8 @@ class Game(Widget):
         :param y: index on Y axis
         :param value: the letter
         """
-        if self.grid[x][y] is None:
+        if self.grid[x][y] is None \
+                or self.grid[x][y].letter != self.letter_grid[x][y].letter:
             letter = LetterCell(
                     size=(self.tile_size, self.tile_size),
                     pos=self.index_to_pos(x, y),
