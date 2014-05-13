@@ -48,13 +48,11 @@ class MenuScreen(Screen):
         self.ids.menu.remove_widget(self.button)
 
     def continue_game(self, *args):
-        print "continue"
         game_screen = self.parent.get_screen('game')
         game_screen.resume = True
         self.parent.current = 'game'
 
     def new_game(self, *args):
-        print "new game"
         game_screen = self.parent.get_screen('game')
         game_screen.resume = False
         self.parent.current = 'game'
