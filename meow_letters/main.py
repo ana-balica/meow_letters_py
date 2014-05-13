@@ -238,6 +238,12 @@ class Game(Widget):
         self.letter_grid.setup(3)
         Clock.schedule_once(self.redraw)
         self.ids.end.opacity = 0
+        if self.parent:
+            game_screen = self.parent.parent.parent
+            if game_screen.end == True:
+                Clock.unschedule(game_screen.tick)
+                Clock.schedule_interval(game_screen.tick, game_screen.ids.timer.interval)
+                game_screen.end = False
 
     def resume(self, score, level, grid):
         self.score.points = int(score)
@@ -393,9 +399,9 @@ class GameScreen(Screen):
             for i, row in enumerate(grid):
                 grid[i] = [l.letter if l is not None else None for l in row]
             self.state.save(level.level, score.points, timer, grid)
-            self.timer_stop()
         else:
             self.state.clear()
+        self.timer_stop()
 
 class GameOverScreen(Screen):
     pass
