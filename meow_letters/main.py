@@ -169,13 +169,14 @@ class Game(Widget):
         :param y: index on Y axis
         :param value: the letter
         """
-        letter = LetterCell(
-                size=(self.tile_size, self.tile_size),
-                pos=self.index_to_pos(x, y),
-                letter=str(value))
-        self.remove_widget(self.grid[x][y])
-        self.grid[x][y] = letter
-        self.add_widget(letter)
+        if self.grid[x][y] is None:
+            letter = LetterCell(
+                    size=(self.tile_size, self.tile_size),
+                    pos=self.index_to_pos(x, y),
+                    letter=str(value))
+            self.remove_widget(self.grid[x][y])
+            self.grid[x][y] = letter
+            self.add_widget(letter)
 
     def on_touch_down(self, touch):
         """Catches the touch event on the grid.
@@ -257,10 +258,6 @@ class Game(Widget):
             letter_grid[i] = [Letter(l) if l is not None else None for l in row]
         self.letter_grid = LetterGrid(GRID_SIZE)
         self.letter_grid.grid = letter_grid
-        grid_cells = copy.deepcopy(grid)
-        for i, row in enumerate(grid):
-            grid_cells[i] = [LetterCell(letter=l) if l is not None else None for l in row]
-        self.grid = grid_cells
         Clock.schedule_once(self.redraw)
         self.ids.end.opacity = 0
 
