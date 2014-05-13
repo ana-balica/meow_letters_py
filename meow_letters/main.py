@@ -257,10 +257,6 @@ class Game(Widget):
             letter_grid[i] = [Letter(l) if l is not None else None for l in row]
         self.letter_grid = LetterGrid(GRID_SIZE)
         self.letter_grid.grid = letter_grid
-        grid_cells = copy.deepcopy(grid)
-        for i, row in enumerate(grid):
-            grid_cells[i] = [LetterCell(letter=l) if l is not None else None for l in row]
-        self.grid = grid_cells
         Clock.schedule_once(self.redraw)
         self.ids.end.opacity = 0
 
