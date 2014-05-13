@@ -242,6 +242,7 @@ class Game(Widget):
         if self.parent:
             game_screen = self.parent.parent.parent
             if game_screen.end == True:
+                game_screen.ids.timer.restart()
                 Clock.unschedule(game_screen.tick)
                 Clock.schedule_interval(game_screen.tick, game_screen.ids.timer.interval)
                 game_screen.end = False
