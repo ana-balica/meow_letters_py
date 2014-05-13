@@ -74,7 +74,6 @@ class Game(Widget):
         self.score = Score()
         self.level = Level()
         self.io = MeowDatabase()
-        self.restart()
 
     def rebuild_background(self):
         """Rebuilds the canvas background and the elements
