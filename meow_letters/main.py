@@ -1,3 +1,4 @@
+import os
 import copy
 from random import choice
 from string import letters
@@ -26,6 +27,7 @@ from storage.meowdb import MeowDatabase
 GRID_SIZE = 5
 BACK_KEY = 27
 ROUND_SECONDS = 7
+PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 
 
 class MenuButton(Button):
@@ -35,7 +37,7 @@ class MenuButton(Button):
 class MenuScreen(Screen):
     def __init__(self, **kwargs):
         super(MenuScreen, self).__init__(**kwargs)
-        self.state = StateJson("data/state.json")
+        self.state = StateJson(os.path.join(PROJECT_PATH, "data/state.json"))
         self.button = MenuButton(text="Continue")
 
     def on_enter(self, *args):
@@ -81,11 +83,11 @@ class Game(Widget):
         self.canvas.before.clear()
         with self.canvas.before:
             Color(*BLUE)
-            BorderImage(pos=self.pos, size=self.size, source='assets/img/mask.png')
+            BorderImage(pos=self.pos, size=self.size, source=os.path.join(PROJECT_PATH, 'assets/img/mask.png'))
             Color(*LIGHTER_BLUE)
             for ix, iy in self.iterate_pos():
                 BorderImage(pos=self.index_to_pos(ix, iy), size=(self.tile_size, self.tile_size),
-                source='assets/img/mask.png')
+                source=os.path.join(PROJECT_PATH, 'assets/img/mask.png'))
 
     def reposition(self, *args):
         self.rebuild_background()
@@ -278,7 +280,7 @@ class Game(Widget):
         self.update_grid()
 
     def save_highscore(self):
-        settings = SettingsJson("data/settings.json")
+        settings = SettingsJson(os.path.join(PROJECT_PATH, "data/settings.json"))
         self.io.insert_highscore(settings.get_username(), self.score.points)
 
 class Timer(Widget):
@@ -293,7 +295,7 @@ class Timer(Widget):
         self.canvas.before.clear()
         with self.canvas.before:
             Color(*PINK)
-            BorderImage(pos=self.pos, size=self.size, source='assets/img/mask.png')
+            BorderImage(pos=self.pos, size=self.size, source=os.path.join(PROJECT_PATH, 'assets/img/mask.png'))
 
     def tick(self, *args):
         if self.size[0] < 0:
@@ -344,7 +346,7 @@ class LetterCell(Widget):
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super(GameScreen, self).__init__(**kwargs)
-        self.state = StateJson("data/state.json")
+        self.state = StateJson(os.path.join(PROJECT_PATH, "data/state.json"))
         self.resume = False
         self.end = False
 
@@ -444,7 +446,7 @@ class HighscoresScreen(Screen):
 
 class SettingsScreen(Screen):
     username_input = ObjectProperty(None)
-    io = SettingsJson("data/settings.json")
+    io = SettingsJson(os.path.join(PROJECT_PATH, "data/settings.json"))
 
     def on_leave(self):
         self.io.save_username(self.username_input.text)

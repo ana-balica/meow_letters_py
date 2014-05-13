@@ -1,4 +1,8 @@
+import os
 import sqlite3
+
+
+PROJECT_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), "..")
 
 
 class SqliteDatabase(object):
@@ -57,7 +61,7 @@ class MeowDatabase(object):
     def __init__(self):
         """Initialize a connection to 'meowletters.db'
         """
-        self.dbname = 'meowletters.db'
+        self.dbname = os.path.join(PROJECT_PATH, 'meowletters.db')
         self.db = SqliteDatabase(self.dbname)
 
     def _sanitize_highscores(self):
