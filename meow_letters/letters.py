@@ -444,7 +444,7 @@ class LetterGrid(object):
             for iy in range(self.size):
                 yield ix, iy
 
-    def cycle_end(self):
+    def cycle_end(self, level):
         valid_chain = True
         if self.chain.chain.__len__() == 1:
             valid_chain = False
@@ -455,7 +455,7 @@ class LetterGrid(object):
                 if valid_chain:
                     self.grid[x][y] = None
                 self.chain.chain.remove(letter)
-        self.add_random_letters(1)
+        self.add_random_letters(level)
 
     def add_random_letters(self, level):
         """Add some "random" letters according to the level
@@ -467,13 +467,15 @@ class LetterGrid(object):
             raise ValueError("The user level must be at least 1, received <{0}>".format(level))
 
         random_letters = list()
-        if self.find_consecutive_combinations(level+1):
-            for _ in xrange(level+1):
+        letters_qtty = (level + 1) / 2 + 1
+
+        if self.find_consecutive_combinations(letters_qtty):
+            for _ in xrange(letters_qtty):
                 letter = Letter(random.choice(ALPHABET))
                 random_letters.append(letter)
         else:
             chosen_letter = self.random_choice()
-            letters = chosen_letter.get_adjacent_letters(level+1)
+            letters = chosen_letter.get_adjacent_letters(letters_qtty)
             letters.remove(chosen_letter)
             random_letters += list(letters)
             letter = Letter(random.choice(ALPHABET))

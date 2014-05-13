@@ -277,7 +277,7 @@ class Game(Widget):
     def cycle_end(self):
         self.score.update(self.letter_grid.chain.length)
         self.level.set_level(self.score.points)
-        self.letter_grid.cycle_end()
+        self.letter_grid.cycle_end(self.level.level)
         self.redraw()
         self.update_grid()
 
