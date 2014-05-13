@@ -1,3 +1,4 @@
+import copy
 from random import choice
 from string import letters
 
@@ -8,16 +9,17 @@ from kivy.config import Config
 from kivy.clock import Clock
 from kivy.graphics import Color, BorderImage
 from kivy.properties import StringProperty, NumericProperty, ObjectProperty
+from kivy.uix.button import Button
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.uix.widget import Widget
 from kivy.uix.label import Label
 from kivy.factory import Factory
 
 from constants.colors import *
-from letters import LetterGrid
+from letters import LetterGrid, Letter
 from level import Level
 from score import Score
-from storage.meowjson import SettingsJson
+from storage.meowjson import SettingsJson, StateJson
 from storage.meowdb import MeowDatabase
 
 
@@ -26,8 +28,37 @@ BACK_KEY = 27
 ROUND_SECONDS = 7
 
 
-class MenuScreen(Screen):
+class MenuButton(Button):
     pass
+
+
+class MenuScreen(Screen):
+    def __init__(self, **kwargs):
+        super(MenuScreen, self).__init__(**kwargs)
+        self.state = StateJson("data/state.json")
+        self.button = MenuButton(text="Continue")
+
+    def on_enter(self, *args):
+        self.ids.new_game_btn.bind(on_press=self.new_game)
+        if not self.state.empty:
+            self.button.bind(on_press=self.continue_game)
+            self.ids.menu.add_widget(self.button, index=3)
+
+    def on_leave(self, *args):
+        self.ids.menu.remove_widget(self.button)
+
+    def continue_game(self, *args):
+        print "continue"
+        game_screen = self.parent.get_screen('game')
+        game_screen.resume = True
+        self.parent.current = 'game'
+
+    def new_game(self, *args):
+        print "new game"
+        game_screen = self.parent.get_screen('game')
+        game_screen.resume = False
+        self.parent.current = 'game'
+
 
 class Game(Widget):
     """ This is the Game widget from the GameScreen.
@@ -185,6 +216,8 @@ class Game(Widget):
     def end(self):
         """Shows a Game over screen inspired from 2048
         """
+        game_screen = self.parent.parent.parent
+        game_screen.end = True
         self.save_highscore()
         end = self.ids.end.__self__
         self.remove_widget(end)
@@ -204,6 +237,25 @@ class Game(Widget):
         self.reposition()
         self.letter_grid = LetterGrid(GRID_SIZE)
         self.letter_grid.setup(3)
+        Clock.schedule_once(self.redraw)
+        self.ids.end.opacity = 0
+
+    def resume(self, score, level, grid):
+        self.score.points = int(score)
+        self.level.set_level(int(level))
+        for ix, iy, child in self.iterate():
+            self.remove_widget(child)
+        self.grid = [[None for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
+        self.reposition()
+        letter_grid = copy.deepcopy(grid)
+        for i, row in enumerate(grid):
+            letter_grid[i] = [Letter(l) if l is not None else None for l in row]
+        self.letter_grid = LetterGrid(GRID_SIZE)
+        self.letter_grid.grid = letter_grid
+        grid_cells = copy.deepcopy(grid)
+        for i, row in enumerate(grid):
+            grid_cells[i] = [LetterCell(letter=l) if l is not None else None for l in row]
+        self.grid = grid_cells
         Clock.schedule_once(self.redraw)
         self.ids.end.opacity = 0
 
@@ -290,6 +342,9 @@ class LetterCell(Widget):
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super(GameScreen, self).__init__(**kwargs)
+        self.state = StateJson("data/state.json")
+        self.resume = False
+        self.end = False
 
     def tick(self, *args):
         timer = self.ids.timer
@@ -308,13 +363,40 @@ class GameScreen(Screen):
     def timer_stop(self):
         Clock.unschedule(self.tick)
 
-    def on_enter(self, *args):
+    def on_pre_enter(self, *args):
+        self.end = False
+        if self.resume:
+            self.state.restore()
+            self.state.clear()
+
+            score = self.state.get_score()
+            level = self.state.get_level()
+            grid = self.state.get_grid()
+            self.ids.score.text = "Score {0}".format(score)
+            self.ids.level.text = "Level {0}".format(level)
+            self.ids.timer.size[0] = self.state.get_timer()
+            self.ids.game.resume(score, level, grid)
+        else:
+            self.state.clear()
+            self.ids.game.restart()
+            self.ids.timer.restart()
+            self.ids.score.text = "Score {0}".format(self.ids.game.score.points)
+            self.ids.level.text = "Level {0}".format(self.ids.game.level.level)
         Clock.unschedule(self.tick)
         Clock.schedule_interval(self.tick, self.ids.timer.interval)
-        self.ids.game.restart()
-        self.ids.timer.restart()
-        self.ids.score.text = "Score {0}".format(self.ids.game.score.points)
-        self.ids.level.text = "Level {0}".format(self.ids.game.level.level)
+
+    def on_pre_leave(self, *args):
+        if not self.end:
+            score = self.ids.game.score
+            level = self.ids.game.level
+            timer = self.ids.timer.size[0]
+            grid = copy.deepcopy(self.ids.game.letter_grid.grid)
+            for i, row in enumerate(grid):
+                grid[i] = [l.letter if l is not None else None for l in row]
+            self.state.save(level.level, score.points, timer, grid)
+            self.timer_stop()
+        else:
+            self.state.clear()
 
 class GameOverScreen(Screen):
     pass

@@ -19,6 +19,7 @@
 
 <MenuScreen>:
     BoxLayout:
+        id: menu
         orientation: "vertical"
         padding: '30dp', '10dp', '30dp', '140dp'
         spacing: '8dp'
@@ -35,8 +36,8 @@
             color: dark_brown
             bold: True
         MenuButton:
+            id: new_game_btn
             text: 'New game'
-            on_press: root.manager.current = 'game'
         MenuButton:
             text: 'Highscores'
             on_press: root.manager.current = 'highscores'
