@@ -7,6 +7,12 @@ class Score(object):
     def __repr__(self):
         return "<Score '{0}' points at {1}>".format(self.points, hex(id(self)))
 
+    def set_score(self, points):
+        if points < 0:
+            raise ValueError("The number of point must a positive integer, "
+                             "got <{0}>".format(points))
+        self.points = points
+
     def add(self, points):
         """Add points to the score
 

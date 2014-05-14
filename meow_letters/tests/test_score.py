@@ -14,7 +14,6 @@ class TestScore(unittest.TestCase):
         self.assertEqual(self.score.add(30), 45)
 
     def test_update(self):
-        self.assertRaises(ValueError, self.score.update, 1)
         self.assertEqual(self.score.update(2), 5)
         self.assertEqual(self.score.update(3), 15)
         self.assertEqual(self.score.update(5), 35)
