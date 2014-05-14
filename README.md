@@ -16,8 +16,14 @@ How to run
 
 1. Create an sqlite database with one empty table. From the root directory run: `python meow_letters/scripts/highscores_table.py`
 2. Run the app on your desktop: `python meow_letters/main.py`
-3. Optionally the app can be deployed on Android using buildozer. Enable developer mode on your Android phone and run `buildozer android debug deploy`
+3. Optionally the app can be deployed on Android using buildozer. Install [buildozer](http://buildozer.readthedocs.org/en/latest/installation.html). Enable developer mode on your Android phone and run `buildozer android debug deploy` from the directory that contains `main.py`
 
+If you face problems with imports, add the project to `PYTHONPATH`. One possible solution is to create a path configuration file:
+```python
+SITEDIR=$(python -m site --user-site)
+mkdir -p "SITEDIR"
+echo "/path/to/meow_letters" > "SITEDIR/meowletters.pth"
+```
 
 *The app was tested on Nexus 5 phone.*
 
