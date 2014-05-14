@@ -1,6 +1,6 @@
 import unittest
 
-from meow_letters.letters import Letter, LetterChain, LetterBoard
+from meow_letters.letters import Letter, LetterChain
 
 
 class TestLetter(unittest.TestCase):
@@ -141,84 +141,6 @@ class TestLetterChain(unittest.TestCase):
         self.assertFalse(self.chain.is_valid())
         self.chain.chain = [letter_a, letter_a]
         self.assertFalse(self.chain.is_valid())
-
-
-class TestLetterBoard(unittest.TestCase):
-    def setUp(self):
-        self.board = LetterBoard()
-
-    def test_setup(self):
-        self.assertRaises(ValueError, self.board.setup, 0)
-        self.assertRaises(ValueError, self.board.setup, 2)
-        for i in xrange(3, 6):
-            self.board.setup(i)
-            self.assertEqual(len(self.board.letters), i)
-            combinations = self.board.find_consecutive_combinations(2)
-            self.assertIsNotNone(combinations)
-            comb_lens = []
-            for comb in combinations:
-                comb_lens.append(len(comb))
-            self.assertIn(2, comb_lens)
-            self.board.clear()
-
-    def test_clear(self):
-        self.board.letters.add(Letter("A"))
-        self.assertEqual(len(self.board.letters), 1)
-        self.board.clear()
-        self.assertEqual(len(self.board.letters), 0)
-
-    def test_add_letters(self):
-        letter_a = Letter("A")
-        letter_b = Letter("B")
-        letter_a2 = Letter("A")
-
-        tests = [[], [letter_a], [letter_a, letter_a2], [letter_a, letter_b]]
-        results = [set(), 
-                   {letter_a},
-                   {letter_a, letter_a2},
-                   {letter_a, letter_b, letter_a2}]
-        for i, test in enumerate(tests):
-            self.board.add_letters(test)
-            self.assertEqual(self.board.letters, results[i])
-
-    def test_remove_letters(self):
-        letter_a = Letter("A")
-        letter_b = Letter("B")
-        letter_a2 = Letter("A")
-        self.board.add_letters([letter_a, letter_b, letter_a2])
-
-        tests = [[], [letter_a], [letter_b, letter_a2]]
-        results = [{letter_a, letter_b, letter_a2},
-                   {letter_b, letter_a2},
-                   set()]
-        for i, test in enumerate(tests):
-            self.board.remove_letters(test)
-            self.assertEqual(self.board.letters, results[i])
-
-        self.assertRaises(KeyError, self.board.remove_letters, [1])
-
-    def test_add_random_letters(self):
-        self.assertRaises(ValueError, self.board.add_random_letters, 0)
-        for level in xrange(1, 5):
-            self.board.letters = {Letter("C"), Letter("V"), Letter("F")}
-            random_letters = self.board.add_random_letters(level)
-            self.assertEqual(len(random_letters), level+1)
-            self.assertEqual(len(self.board.letters), level+4)
-            combinations = self.board.find_consecutive_combinations(level+1)
-            self.assertIsNotNone(combinations)
-            self.board.clear()
-
-    def test_find_consecutive_combinations(self):
-        letter_a = Letter("A")
-        letter_a2 = Letter("A")
-        letter_b = Letter("B")
-        letter_c = Letter("C")
-        self.board.add_letters([letter_a, letter_a2, letter_b, letter_c])
-
-        self.assertRaises(ValueError, self.board.find_consecutive_combinations, 1)
-        self.assertEqual(self.board.find_consecutive_combinations(2), [["A", "B"], ["B", "C"]])
-        self.assertEqual(self.board.find_consecutive_combinations(3), [["A", "B", "C"]])
-        self.assertEqual(self.board.find_consecutive_combinations(4), [])
 
 
 if __name__ == '__main__':
