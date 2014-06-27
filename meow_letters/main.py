@@ -81,9 +81,11 @@ class Game(Widget):
         self.canvas.before.clear()
         with self.canvas.before:
             Color(*BLUE)
-            BorderImage(pos=self.pos, size=self.size, source=os.path.join(PROJECT_PATH, 'assets/img/mask.png'))
+            BorderImage(pos=self.pos,
+                        size=self.size,
+                        source=os.path.join(PROJECT_PATH, 'assets/img/mask.png'))
             Color(*LIGHTER_BLUE)
-            for ix, iy in self.iterate_pos():
+            for ix, iy in self.letter_grid.iterate_pos():
                 BorderImage(pos=self.index_to_pos(ix, iy), size=(self.tile_size, self.tile_size),
                 source=os.path.join(PROJECT_PATH, 'assets/img/mask.png'))
 
@@ -103,7 +105,7 @@ class Game(Widget):
     def iterate(self):
         """Helper iterator. Iterates through all cells.
         """
-        for ix, iy in self.iterate_pos():
+        for ix, iy in self.letter_grid.iterate_pos():
             child = self.grid[ix][iy]
             if child:
                 yield ix, iy, child
@@ -111,16 +113,9 @@ class Game(Widget):
     def iterate_empty(self):
         """Helper iterator. Iterates through empty cells.
         """
-        for ix, iy in self.iterate_pos():
+        for ix, iy in self.letter_grid.iterate_pos():
             child = self.grid[ix][iy]
             if not child:
-                yield ix, iy
-
-    def iterate_pos(self):
-        """Helper iterator. Returns index iterator.
-        """
-        for ix in range(GRID_SIZE):
-            for iy in range(GRID_SIZE):
                 yield ix, iy
 
     def index_to_pos(self, x, y):

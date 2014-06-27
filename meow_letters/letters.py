@@ -330,7 +330,9 @@ class LetterGrid(object):
                 yield ix, iy
 
     def iterate_pos(self):
-        """Helper iterator. Returns index iterator.
+        """Helper iterator through a square grid from left to right, top to bottom
+
+        :return: iterator with tuple (x, y) position
         """
         for ix in range(self.size):
             for iy in range(self.size):
