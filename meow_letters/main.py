@@ -10,52 +10,19 @@ from kivy.config import Config
 from kivy.clock import Clock
 from kivy.graphics import Color, BorderImage
 from kivy.properties import StringProperty, NumericProperty, ObjectProperty
-from kivy.uix.button import Button
-from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
+from kivy.uix.screenmanager import ScreenManager, NoTransition
 from kivy.uix.widget import Widget
-from kivy.uix.label import Label
-from kivy.factory import Factory
 
 from constants.colors import *
 from constants.misc import *
 from letters import LetterGrid, Letter
 from level import Level
 from score import Score
-from storage.meowjson import SettingsJson, StateJson
+from screens import (MenuScreen, GameScreen, GameOverScreen, HighscoresScreen,
+                     SettingsScreen)
+from storage.meowjson import SettingsJson
 from storage.meowdb import MeowDatabase
-
-
-PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
-
-
-class MenuButton(Button):
-    pass
-
-
-class MenuScreen(Screen):
-    def __init__(self, **kwargs):
-        super(MenuScreen, self).__init__(**kwargs)
-        self.state = StateJson(os.path.join(PROJECT_PATH, "data/state.json"))
-        self.button = MenuButton(text="Continue")
-
-    def on_enter(self, *args):
-        self.ids.new_game_btn.bind(on_press=self.new_game)
-        if not self.state.empty:
-            self.button.bind(on_press=self.continue_game)
-            self.ids.menu.add_widget(self.button, index=3)
-
-    def on_leave(self, *args):
-        self.ids.menu.remove_widget(self.button)
-
-    def continue_game(self, *args):
-        game_screen = self.parent.get_screen('game')
-        game_screen.resume = True
-        self.parent.current = 'game'
-
-    def new_game(self, *args):
-        game_screen = self.parent.get_screen('game')
-        game_screen.resume = False
-        self.parent.current = 'game'
+from meow_letters import PROJECT_PATH
 
 
 class Game(Widget):
@@ -83,18 +50,21 @@ class Game(Widget):
             Color(*BLUE)
             BorderImage(pos=self.pos,
                         size=self.size,
-                        source=os.path.join(PROJECT_PATH, 'assets/img/mask.png'))
+                        source=os.path.join(PROJECT_PATH,
+                                            'assets/img/mask.png'))
             Color(*LIGHTER_BLUE)
             for ix, iy in self.letter_grid.iterate_pos():
-                BorderImage(pos=self.index_to_pos(ix, iy), size=(self.tile_size, self.tile_size),
-                source=os.path.join(PROJECT_PATH, 'assets/img/mask.png'))
+                BorderImage(pos=self.index_to_pos(ix, iy),
+                            size=(self.tile_size, self.tile_size),
+                            source=os.path.join(PROJECT_PATH,
+                                                'assets/img/mask.png'))
 
     def reposition(self, *args):
         self.rebuild_background()
         # calculate the size of a letter
         l = min(self.width, self.height)
         padding = (l / float(GRID_SIZE)) / float(GRID_SIZE * 2)
-        tile_size = (l - (padding * (GRID_SIZE+1))) / float(GRID_SIZE)
+        tile_size = (l - (padding * (GRID_SIZE + 1))) / float(GRID_SIZE)
         self.tile_size = tile_size
         self.tile_padding = padding
 
@@ -136,11 +106,12 @@ class Game(Widget):
 
         :param coordinates: a tuple with (x, y) pixel coordinates.
         """
-        grid_length = (self.tile_size + self.tile_padding) * GRID_SIZE + self.tile_padding
+        grid_length = (
+                      self.tile_size + self.tile_padding) * GRID_SIZE + self.tile_padding
         if coordinates[0] < 0 \
-                or coordinates[1] < 0 \
-                or coordinates[0] > grid_length \
-                or coordinates[1] > grid_length:
+            or coordinates[1] < 0 \
+            or coordinates[0] > grid_length \
+            or coordinates[1] > grid_length:
             return (None, None)
 
         unit = self.tile_size + self.tile_padding
@@ -165,11 +136,11 @@ class Game(Widget):
         :param value: the letter
         """
         if self.grid[x][y] is None \
-                or self.grid[x][y].letter != self.letter_grid[x][y].letter:
+            or self.grid[x][y].letter != self.letter_grid[x][y].letter:
             letter = LetterCell(
-                    size=(self.tile_size, self.tile_size),
-                    pos=self.index_to_pos(x, y),
-                    letter=str(value))
+                size=(self.tile_size, self.tile_size),
+                pos=self.index_to_pos(x, y),
+                letter=str(value))
             self.remove_widget(self.grid[x][y])
             self.grid[x][y] = letter
             self.add_widget(letter)
@@ -240,7 +211,8 @@ class Game(Widget):
             if game_screen.end == True:
                 game_screen.ids.timer.restart()
                 Clock.unschedule(game_screen.tick)
-                Clock.schedule_interval(game_screen.tick, game_screen.ids.timer.interval)
+                Clock.schedule_interval(game_screen.tick,
+                                        game_screen.ids.timer.interval)
                 game_screen.end = False
 
     def resume(self, score, level, grid):
@@ -275,8 +247,10 @@ class Game(Widget):
         self.update_grid()
 
     def save_highscore(self):
-        settings = SettingsJson(os.path.join(PROJECT_PATH, "data/settings.json"))
+        settings = SettingsJson(
+            os.path.join(PROJECT_PATH, "data/settings.json"))
         self.io.insert_highscore(settings.get_username(), self.score.points)
+
 
 class Timer(Widget):
     def __init__(self, **kwargs):
@@ -290,7 +264,9 @@ class Timer(Widget):
         self.canvas.before.clear()
         with self.canvas.before:
             Color(*PINK)
-            BorderImage(pos=self.pos, size=self.size, source=os.path.join(PROJECT_PATH, 'assets/img/mask.png'))
+            BorderImage(pos=self.pos, size=self.size,
+                        source=os.path.join(PROJECT_PATH,
+                                            'assets/img/mask.png'))
 
     def tick(self, *args):
         if self.size[0] < 0:
@@ -311,6 +287,7 @@ class Timer(Widget):
     def reset(self):
         self.finished = True
         self.size[0] = self.parent.size[0]
+
 
 class LetterCell(Widget):
     """ This class represents single letter from the grid.
@@ -337,117 +314,6 @@ class LetterCell(Widget):
 
     def unselect(self):
         self.bg_color = LIGHT_BROWN
-
-class GameScreen(Screen):
-    def __init__(self, **kwargs):
-        super(GameScreen, self).__init__(**kwargs)
-        self.state = StateJson(os.path.join(PROJECT_PATH, "data/state.json"))
-        self.resume = False
-        self.end = False
-
-    def tick(self, *args):
-        timer = self.ids.timer
-        timer.tick()
-        if timer.finished:
-            self.ids.game.cycle_end()
-            self.ids.score.text = "Score {0}".format(self.ids.game.score.points)
-            self.ids.level.text = "Level {0}".format(self.ids.game.level.level)
-            if self.ids.game.letter_grid.end:
-                self.ids.game.end()
-                self.timer_stop()
-                timer.opacity = 0
-            else:
-                timer.restart()
-
-    def timer_stop(self):
-        Clock.unschedule(self.tick)
-
-    def on_pre_enter(self, *args):
-        self.end = False
-        if self.resume:
-            self.state.restore()
-            self.state.clear()
-
-            score = self.state.get_score()
-            level = self.state.get_level()
-            grid = self.state.get_grid()
-            self.ids.score.text = "Score {0}".format(score)
-            self.ids.level.text = "Level {0}".format(level)
-            self.ids.timer.size[0] = self.state.get_timer()
-            self.ids.game.resume(score, level, grid)
-        else:
-            self.state.clear()
-            self.ids.game.restart()
-            self.ids.timer.restart()
-            self.ids.score.text = "Score {0}".format(self.ids.game.score.points)
-            self.ids.level.text = "Level {0}".format(self.ids.game.level.level)
-        Clock.unschedule(self.tick)
-        Clock.schedule_interval(self.tick, self.ids.timer.interval)
-
-    def on_pre_leave(self, *args):
-        if not self.end:
-            score = self.ids.game.score
-            level = self.ids.game.level
-            timer = self.ids.timer.size[0]
-            grid = copy.deepcopy(self.ids.game.letter_grid.grid)
-            for i, row in enumerate(grid):
-                grid[i] = [l.letter if l is not None else None for l in row]
-            self.state.save(level.level, score.points, timer, grid)
-        else:
-            self.state.clear()
-        self.timer_stop()
-
-class GameOverScreen(Screen):
-    pass
-
-class HighscoreLabel(Label):
-    def __init__(self, root, text, halign):
-        super(HighscoreLabel, self).__init__()
-        root = root
-        self.text = text
-        self.halign = halign
-        self.color = DARK_BLUE
-        self.font_size = min(root.height, root.width) / 18.
-        self.width = root.width / 2.5
-        self.height = min(root.height, root.width) / 16.
-        self.text_size = (root.width / 2.5, None)
-        self.size_hint = (None, None)
-
-
-class HighscoresScreen(Screen):
-    highscores_layout = ObjectProperty(None)
-    io = MeowDatabase()
-
-    def on_enter(self):
-        self.highscores_layout.clear_widgets()
-        self.append_title()
-        highscores = self.io.get_top_highscores()
-        for i, entry in enumerate(highscores):
-            i += 1
-            username = "{0}.  {1}".format(i, entry[0])
-            self.highscores_layout.add_widget(HighscoreLabel(self.highscores_layout, username, "left"))
-            highscore = str(entry[1])
-            self.highscores_layout.add_widget(HighscoreLabel(self.highscores_layout, highscore, "right"))
-
-    def append_title(self):
-        self.highscores_layout.add_widget(
-            Label(text="Highscores",
-                  color=DARK_BROWN,
-                  font_size=min(self.highscores_layout.height, self.highscores_layout.width) / 10.,
-                  width=self.highscores_layout.width,
-                  size_hint_y=None,
-                  height=min(self.highscores_layout.height, self.highscores_layout.width) / 4.))
-
-
-class SettingsScreen(Screen):
-    username_input = ObjectProperty(None)
-    io = SettingsJson(os.path.join(PROJECT_PATH, "data/settings.json"))
-
-    def on_leave(self):
-        self.io.save_username(self.username_input.text)
-
-    def on_pre_enter(self):
-        self.username_input.text = self.io.get_username()
 
 
 class MeowLettersApp(App):
