@@ -17,6 +17,7 @@ from kivy.uix.label import Label
 from kivy.factory import Factory
 
 from constants.colors import *
+from constants.misc import *
 from letters import LetterGrid, Letter
 from level import Level
 from score import Score
@@ -24,9 +25,6 @@ from storage.meowjson import SettingsJson, StateJson
 from storage.meowdb import MeowDatabase
 
 
-GRID_SIZE = 5
-BACK_KEY = 27
-ROUND_SECONDS = 7
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 
 
