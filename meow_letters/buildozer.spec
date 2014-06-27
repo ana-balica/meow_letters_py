@@ -47,7 +47,7 @@ icon.filename = %(source.dir)s/assets/img/icon.png
 orientation = portrait
 
 # (bool) Indicate if the application should be fullscreen or not
-fullscreen = 0
+fullscreen = 1
 
 
 #
